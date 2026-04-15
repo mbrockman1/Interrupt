@@ -7,10 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C046FDD2F6DF5690001ABB5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A4582F6B852300CB9783 /* WidgetKit.framework */; };
+		4C046FDE2F6DF5690001ABB5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A45A2F6B852300CB9783 /* SwiftUI.framework */; };
+		4C046FE92F6DF56B0001ABB5 /* ComplicationsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4C44A41B2F6B81A100CB9783 /* Interrupt Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4C44A41A2F6B81A100CB9783 /* Interrupt Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4C44A4592F6B852300CB9783 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A4582F6B852300CB9783 /* WidgetKit.framework */; };
+		4C44A45B2F6B852300CB9783 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A45A2F6B852300CB9783 /* SwiftUI.framework */; };
+		4C44A4662F6B852500CB9783 /* InterruptWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C046FD62F6DF4D90001ABB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C44A4052F6B819D00CB9783 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C046FC32F6DF3850001ABB5;
+			remoteInfo = WatchInterruptExtension;
+		};
+		4C046FE72F6DF56B0001ABB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C44A4052F6B819D00CB9783 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C046FDB2F6DF5690001ABB5;
+			remoteInfo = ComplicationsExtension;
+		};
 		4C44A41C2F6B81A100CB9783 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C44A4052F6B819D00CB9783 /* Project object */;
@@ -18,9 +38,27 @@
 			remoteGlobalIDString = 4C44A4192F6B81A100CB9783;
 			remoteInfo = "Interrupt Watch App";
 		};
+		4C44A4642F6B852500CB9783 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C44A4052F6B819D00CB9783 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C44A4552F6B852300CB9783;
+			remoteInfo = InterruptWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4C1D73742F6CC187007F3E7D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4C046FE92F6DF56B0001ABB5 /* ComplicationsExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C44A42A2F6B81A200CB9783 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -32,16 +70,122 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C44A46B2F6B852500CB9783 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4C44A4662F6B852500CB9783 /* InterruptWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ComplicationsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C0FC53C2F8D8A560005B62F /* InterruptWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InterruptWidgetExtension.entitlements; sourceTree = "<group>"; };
+		4C0FC53D2F8D8A7D0005B62F /* ComplicationsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ComplicationsExtension.entitlements; sourceTree = "<group>"; };
 		4C44A40D2F6B819E00CB9783 /* Interrupt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Interrupt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C44A41A2F6B81A100CB9783 /* Interrupt Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Interrupt Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = InterruptWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C44A4582F6B852300CB9783 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
+		4C44A45A2F6B852300CB9783 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4C046FB52F6DD7820001ABB5 /* Exceptions for "Interrupt" folder in "Interrupt" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4C44A40C2F6B819E00CB9783 /* Interrupt */;
+		};
+		4C046FED2F6DF56B0001ABB5 /* Exceptions for "Complications" folder in "ComplicationsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4C046FDB2F6DF5690001ABB5 /* ComplicationsExtension */;
+		};
+		4C33EBB72F783F1B00058284 /* Exceptions for "Shared" folder in "ComplicationsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DefaultMessages/ImposterSyndromeMessages.swift,
+				DefaultMessages/LonelinessMessages.swift,
+				DefaultMessages/OverthinkingMessages.swift,
+				DefaultMessages/SaddnessMessages.swift,
+				DefaultMessages/SelfTalkMessages.swift,
+				DefaultMessages/StressMessages.swift,
+				Models/SharedModels.swift,
+				Utilities/DatabaseHelper.swift,
+				Utilities/MessageCardView.swift,
+				Utilities/MessageStore.swift,
+				Utilities/StoreManager.swift,
+			);
+			target = 4C046FDB2F6DF5690001ABB5 /* ComplicationsExtension */;
+		};
+		4C44A44E2F6B83E600CB9783 /* Exceptions for "Shared" folder in "Interrupt Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DefaultMessages/ImposterSyndromeMessages.swift,
+				DefaultMessages/LonelinessMessages.swift,
+				DefaultMessages/OverthinkingMessages.swift,
+				DefaultMessages/SaddnessMessages.swift,
+				DefaultMessages/SelfTalkMessages.swift,
+				DefaultMessages/StressMessages.swift,
+				Models/SeedManager.swift,
+				Models/SharedModels.swift,
+				Utilities/DatabaseHelper.swift,
+				Utilities/MessageCardView.swift,
+				Utilities/MessageStore.swift,
+				Utilities/StoreManager.swift,
+				Utilities/WatchSyncManager.swift,
+			);
+			target = 4C44A4192F6B81A100CB9783 /* Interrupt Watch App */;
+		};
+		4C44A4672F6B852500CB9783 /* Exceptions for "InterruptWidget" folder in "InterruptWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4C44A4552F6B852300CB9783 /* InterruptWidgetExtension */;
+		};
+		4C44A4702F6B87D900CB9783 /* Exceptions for "Shared" folder in "InterruptWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DefaultMessages/ImposterSyndromeMessages.swift,
+				DefaultMessages/LonelinessMessages.swift,
+				DefaultMessages/OverthinkingMessages.swift,
+				DefaultMessages/SaddnessMessages.swift,
+				DefaultMessages/SelfTalkMessages.swift,
+				DefaultMessages/StressMessages.swift,
+				Models/SharedModels.swift,
+				Utilities/DatabaseHelper.swift,
+				Utilities/MessageCardView.swift,
+				Utilities/MessageStore.swift,
+				Utilities/StoreManager.swift,
+				Utilities/WatchSyncManager.swift,
+			);
+			target = 4C44A4552F6B852300CB9783 /* InterruptWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4C046FDF2F6DF5690001ABB5 /* Complications */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4C046FED2F6DF56B0001ABB5 /* Exceptions for "Complications" folder in "ComplicationsExtension" target */,
+			);
+			path = Complications;
+			sourceTree = "<group>";
+		};
 		4C44A40F2F6B819E00CB9783 /* Interrupt */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4C046FB52F6DD7820001ABB5 /* Exceptions for "Interrupt" folder in "Interrupt" target */,
+			);
 			path = Interrupt;
 			sourceTree = "<group>";
 		};
@@ -50,9 +194,36 @@
 			path = "Interrupt Watch App";
 			sourceTree = "<group>";
 		};
+		4C44A42E2F6B81E800CB9783 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4C44A44E2F6B83E600CB9783 /* Exceptions for "Shared" folder in "Interrupt Watch App" target */,
+				4C44A4702F6B87D900CB9783 /* Exceptions for "Shared" folder in "InterruptWidgetExtension" target */,
+				4C33EBB72F783F1B00058284 /* Exceptions for "Shared" folder in "ComplicationsExtension" target */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		4C44A45C2F6B852300CB9783 /* InterruptWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4C44A4672F6B852500CB9783 /* Exceptions for "InterruptWidget" folder in "InterruptWidgetExtension" target */,
+			);
+			path = InterruptWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4C046FD92F6DF5690001ABB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C046FDE2F6DF5690001ABB5 /* SwiftUI.framework in Frameworks */,
+				4C046FDD2F6DF5690001ABB5 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C44A40A2F6B819E00CB9783 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -67,14 +238,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C44A4532F6B852300CB9783 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C44A45B2F6B852300CB9783 /* SwiftUI.framework in Frameworks */,
+				4C44A4592F6B852300CB9783 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		4C44A4042F6B819D00CB9783 = {
 			isa = PBXGroup;
 			children = (
+				4C0FC53D2F8D8A7D0005B62F /* ComplicationsExtension.entitlements */,
+				4C0FC53C2F8D8A560005B62F /* InterruptWidgetExtension.entitlements */,
+				4C44A42E2F6B81E800CB9783 /* Shared */,
 				4C44A40F2F6B819E00CB9783 /* Interrupt */,
 				4C44A41E2F6B81A100CB9783 /* Interrupt Watch App */,
+				4C44A45C2F6B852300CB9783 /* InterruptWidget */,
+				4C046FDF2F6DF5690001ABB5 /* Complications */,
+				4C44A4572F6B852300CB9783 /* Frameworks */,
 				4C44A40E2F6B819E00CB9783 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,13 +270,46 @@
 			children = (
 				4C44A40D2F6B819E00CB9783 /* Interrupt.app */,
 				4C44A41A2F6B81A100CB9783 /* Interrupt Watch App.app */,
+				4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */,
+				4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4C44A4572F6B852300CB9783 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C44A4582F6B852300CB9783 /* WidgetKit.framework */,
+				4C44A45A2F6B852300CB9783 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4C046FDB2F6DF5690001ABB5 /* ComplicationsExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C046FEA2F6DF56B0001ABB5 /* Build configuration list for PBXNativeTarget "ComplicationsExtension" */;
+			buildPhases = (
+				4C046FD82F6DF5690001ABB5 /* Sources */,
+				4C046FD92F6DF5690001ABB5 /* Frameworks */,
+				4C046FDA2F6DF5690001ABB5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4C046FDF2F6DF5690001ABB5 /* Complications */,
+			);
+			name = ComplicationsExtension;
+			packageProductDependencies = (
+			);
+			productName = ComplicationsExtension;
+			productReference = 4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		4C44A40C2F6B819E00CB9783 /* Interrupt */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C44A42B2F6B81A200CB9783 /* Build configuration list for PBXNativeTarget "Interrupt" */;
@@ -99,14 +318,17 @@
 				4C44A40A2F6B819E00CB9783 /* Frameworks */,
 				4C44A40B2F6B819E00CB9783 /* Resources */,
 				4C44A42A2F6B81A200CB9783 /* Embed Watch Content */,
+				4C44A46B2F6B852500CB9783 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				4C44A41D2F6B81A100CB9783 /* PBXTargetDependency */,
+				4C44A4652F6B852500CB9783 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				4C44A40F2F6B819E00CB9783 /* Interrupt */,
+				4C44A42E2F6B81E800CB9783 /* Shared */,
 			);
 			name = Interrupt;
 			packageProductDependencies = (
@@ -122,10 +344,13 @@
 				4C44A4162F6B81A100CB9783 /* Sources */,
 				4C44A4172F6B81A100CB9783 /* Frameworks */,
 				4C44A4182F6B81A100CB9783 /* Resources */,
+				4C1D73742F6CC187007F3E7D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4C046FD72F6DF4D90001ABB5 /* PBXTargetDependency */,
+				4C046FE82F6DF56B0001ABB5 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				4C44A41E2F6B81A100CB9783 /* Interrupt Watch App */,
@@ -137,6 +362,28 @@
 			productReference = 4C44A41A2F6B81A100CB9783 /* Interrupt Watch App.app */;
 			productType = "com.apple.product-type.application";
 		};
+		4C44A4552F6B852300CB9783 /* InterruptWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C44A4682F6B852500CB9783 /* Build configuration list for PBXNativeTarget "InterruptWidgetExtension" */;
+			buildPhases = (
+				4C44A4522F6B852300CB9783 /* Sources */,
+				4C44A4532F6B852300CB9783 /* Frameworks */,
+				4C44A4542F6B852300CB9783 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4C44A45C2F6B852300CB9783 /* InterruptWidget */,
+			);
+			name = InterruptWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = InterruptWidgetExtension;
+			productReference = 4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -145,12 +392,18 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2630;
-				LastUpgradeCheck = 2630;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
+					4C046FDB2F6DF5690001ABB5 = {
+						CreatedOnToolsVersion = 26.3;
+					};
 					4C44A40C2F6B819E00CB9783 = {
 						CreatedOnToolsVersion = 26.3;
 					};
 					4C44A4192F6B81A100CB9783 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					4C44A4552F6B852300CB9783 = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
@@ -171,11 +424,20 @@
 			targets = (
 				4C44A40C2F6B819E00CB9783 /* Interrupt */,
 				4C44A4192F6B81A100CB9783 /* Interrupt Watch App */,
+				4C44A4552F6B852300CB9783 /* InterruptWidgetExtension */,
+				4C046FDB2F6DF5690001ABB5 /* ComplicationsExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4C046FDA2F6DF5690001ABB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C44A40B2F6B819E00CB9783 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -190,9 +452,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C44A4542F6B852300CB9783 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4C046FD82F6DF5690001ABB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C44A4092F6B819E00CB9783 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,17 +483,107 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4C44A4522F6B852300CB9783 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C046FD72F6DF4D90001ABB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			targetProxy = 4C046FD62F6DF4D90001ABB5 /* PBXContainerItemProxy */;
+		};
+		4C046FE82F6DF56B0001ABB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C046FDB2F6DF5690001ABB5 /* ComplicationsExtension */;
+			targetProxy = 4C046FE72F6DF56B0001ABB5 /* PBXContainerItemProxy */;
+		};
 		4C44A41D2F6B81A100CB9783 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4C44A4192F6B81A100CB9783 /* Interrupt Watch App */;
 			targetProxy = 4C44A41C2F6B81A100CB9783 /* PBXContainerItemProxy */;
 		};
+		4C44A4652F6B852500CB9783 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4C44A4552F6B852300CB9783 /* InterruptWidgetExtension */;
+			targetProxy = 4C44A4642F6B852500CB9783 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		4C046FEB2F6DF56B0001ABB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ComplicationsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8A3PF8RFV;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Complications/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Complications;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.20260415;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.6;
+			};
+			name = Debug;
+		};
+		4C046FEC2F6DF56B0001ABB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ComplicationsExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8A3PF8RFV;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Complications/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Complications;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 0.20260415;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.6;
+			};
+			name = Release;
+		};
 		4C44A4252F6B81A200CB9783 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -252,6 +618,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -275,6 +642,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -314,6 +682,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -330,6 +699,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -339,11 +709,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Interrupt Watch App/Interrupt Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interrupt-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Interrupt;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.mjbapps.Interrupt;
@@ -351,7 +723,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.20260415;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -363,7 +735,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+				WATCHOS_DEPLOYMENT_TARGET = 11.6;
 			};
 			name = Debug;
 		};
@@ -372,11 +744,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Interrupt Watch App/Interrupt Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Interrupt-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Interrupt;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = org.mjbapps.Interrupt;
@@ -384,7 +758,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.20260415;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -397,7 +771,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 26.2;
+				WATCHOS_DEPLOYMENT_TARGET = 11.6;
 			};
 			name = Release;
 		};
@@ -406,33 +780,40 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Interrupt/Interrupt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Interrupt;
+				INFOPLIST_FILE = Interrupt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Interrupt - Thought Reset";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.20260415;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -441,40 +822,146 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Interrupt/Interrupt.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = Interrupt;
+				INFOPLIST_FILE = Interrupt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Interrupt - Thought Reset";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.20260415;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4C44A4692F6B852500CB9783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = InterruptWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = L8A3PF8RFV;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InterruptWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = InterruptWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.20260415;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				XROS_DEPLOYMENT_TARGET = 26.2;
+			};
+			name = Debug;
+		};
+		4C44A46A2F6B852500CB9783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = InterruptWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = L8A3PF8RFV;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = InterruptWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = InterruptWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 0.20260415;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4C046FEA2F6DF56B0001ABB5 /* Build configuration list for PBXNativeTarget "ComplicationsExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C046FEB2F6DF56B0001ABB5 /* Debug */,
+				4C046FEC2F6DF56B0001ABB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4C44A4082F6B819D00CB9783 /* Build configuration list for PBXProject "Interrupt" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -498,6 +985,15 @@
 			buildConfigurations = (
 				4C44A42C2F6B81A200CB9783 /* Debug */,
 				4C44A42D2F6B81A200CB9783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4C44A4682F6B852500CB9783 /* Build configuration list for PBXNativeTarget "InterruptWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C44A4692F6B852500CB9783 /* Debug */,
+				4C44A46A2F6B852500CB9783 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

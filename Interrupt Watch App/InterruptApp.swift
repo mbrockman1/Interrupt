@@ -1,17 +1,18 @@
-//
-//  InterruptApp.swift
-//  Interrupt Watch App
-//
-//  Created by Michael Brockman on 3/18/26.
-//
-
 import SwiftUI
+import SwiftData
 
 @main
-struct Interrupt_Watch_AppApp: App {
+struct Interrupt_WatchApp: App {
+    var sharedModelContainer: ModelContainer = DatabaseHelper.getContainer()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            WatchContentView()
+                .onAppear {
+                    // Start the instant sync session
+                    WatchSyncManager.shared.startSession()
+                }
         }
+        .modelContainer(sharedModelContainer)
     }
 }

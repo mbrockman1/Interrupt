@@ -1,17 +1,14 @@
-//
-//  InterruptApp.swift
-//  Interrupt
-//
-//  Created by Michael Brockman on 3/18/26.
-//
-
 import SwiftUI
+import SwiftData
 
 @main
-struct InterruptApp: App {
+struct Interrupt_iOSApp: App {
+    var sharedModelContainer: ModelContainer = DatabaseHelper.getContainer()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            iOSContentView()
         }
+        .modelContainer(sharedModelContainer)
     }
 }

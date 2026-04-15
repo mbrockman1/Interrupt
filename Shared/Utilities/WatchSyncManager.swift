@@ -1,0 +1,212 @@
+////
+////  WatchSyncManager.swift
+////  Interrupt
+////
+////  Created by Michael Brockman on 3/28/26.
+
+
+import Foundation
+import WatchConnectivity
+import SwiftData
+
+@MainActor
+class WatchSyncManager: NSObject, WCSessionDelegate {
+    static let shared = WatchSyncManager()
+    var modelContext: ModelContext?
+    
+    func startSession() {
+        if WCSession.isSupported() {
+            WCSession.default.delegate = self
+            WCSession.default.activate()
+        }
+    }
+
+    // --- SENDER: SYNC TRIGGERS (iPhone -> Watch) ---
+    func syncTriggersToWatch(triggers: [EmotionTrigger]) {
+        let triggerData = triggers.map { $0.toDictionary() }
+        let payload = ["trigger_sync": triggerData]
+        
+        if WCSession.default.isReachable {
+            WCSession.default.sendMessage(payload, replyHandler: nil)
+        } else {
+            WCSession.default.transferUserInfo(payload)
+        }
+        print("📱 SyncManager: Beaming \(triggers.count) triggers to Watch...")
+    }
+
+    // --- SENDER: SYNC LIBRARY (iPhone -> Watch) ---
+    func syncLibraryToWatch(messages:[InterruptMessage]) {
+        let messageData = messages.map { $0.toDictionary() }
+        let payload = ["library_sync": messageData]
+        
+        if WCSession.default.isReachable {
+            WCSession.default.sendMessage(payload, replyHandler: nil)
+        } else {
+            WCSession.default.transferUserInfo(payload)
+        }
+    }
+
+    // --- SENDER: ANALYTICS LOG (Watch -> iPhone) ---
+    func sendLogToPhone(categoryName: String) {
+        let payload = ["log_category": categoryName, "timestamp": Date()] as [String : Any]
+        if WCSession.default.isReachable {
+            WCSession.default.sendMessage(payload, replyHandler: nil)
+        } else {
+            WCSession.default.transferUserInfo(payload)
+        }
+    }
+
+    // --- RECEIVER ---
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) { handleIncomingPayload(message) }
+    func session(_ session: WCSession, didReceiveUserInfo userInfo:[String : Any] = [:]) { handleIncomingPayload(userInfo) }
+
+    private func handleIncomingPayload(_ payload: [String: Any]) {
+        guard let context = modelContext else { return }
+        
+        // 1. Receive Analytics (FIXED: Now reads the exact historical timestamp!)
+        if let category = payload["log_category"] as? String {
+            // Extract the time you actually tapped the watch, fallback to current time if missing
+            let exactTime = payload["timestamp"] as? Date ?? Date()
+            
+            DispatchQueue.main.async {
+                // Pass the exactTime into the log so your charts are 100% accurate
+                context.insert(InterruptLog(timestamp: exactTime, categoryName: category))
+                try? context.save()
+                print("📱 Received Log: \(category) at \(exactTime)")
+            }
+        }
+        
+        // 2. Receive Library Sync
+        if let libraryData = payload["library_sync"] as? [[String: Any]] {
+            DispatchQueue.main.async { self.processLibrarySync(libraryData, context: context) }
+        }
+        
+        // 3. Receive Trigger Sync
+        if let triggerData = payload["trigger_sync"] as? [[String: Any]] {
+            DispatchQueue.main.async { self.processTriggerSync(triggerData, context: context) }
+        }
+    }
+
+    // Processes the incoming Triggers on the Watch
+    private func processTriggerSync(_ data: [[String: Any]], context: ModelContext) {
+            // Ensure all database work happens on the main thread for UI consistency
+            DispatchQueue.main.async {
+                print("⌚️ Watch: Processing Trigger Sync...")
+                let incomingIds = data.compactMap { $0["id"] as? String }
+                
+                for dict in data {
+                    if let incoming = EmotionTrigger.fromDictionary(dict) {
+                        let id = incoming.id
+                        let fetch = FetchDescriptor<EmotionTrigger>(predicate: #Predicate { $0.id == id })
+                        
+                        if let existing = (try? context.fetch(fetch))?.first {
+                            // Update the hidden status and name
+                            existing.name = incoming.name
+                            existing.isHidden = incoming.isHidden
+                            existing.isDefault = incoming.isDefault
+                        } else {
+                            context.insert(incoming)
+                        }
+                    }
+                }
+                
+                // Delete logic for custom emotions
+                if let allExisting = try? context.fetch(FetchDescriptor<EmotionTrigger>()) {
+                    for existing in allExisting {
+                        if !incomingIds.contains(existing.id.uuidString) {
+                            context.delete(existing)
+                        }
+                    }
+                }
+                
+                try? context.save()
+                print("⌚️ Watch: UI Updated with new Hidden/Custom triggers.")
+            }
+        }
+
+    // Processes incoming Library on the Watch
+    private func processLibrarySync(_ data: [[String: Any]], context: ModelContext) {
+        for dict in data {
+            if let incomingMsg = InterruptMessage.fromDictionary(dict) {
+                let id = incomingMsg.id
+                let fetch = FetchDescriptor<InterruptMessage>(predicate: #Predicate { $0.id == id })
+                if let existing = (try? context.fetch(fetch))?.first {
+                    existing.text = incomingMsg.text
+                    existing.isActive = incomingMsg.isActive
+                    existing.categoryName = incomingMsg.categoryName
+                } else {
+                    context.insert(incomingMsg)
+                }
+            }
+        }
+        try? context.save()
+    }
+
+    func session(_ session: WCSession, activationDidCompleteWith state: WCSessionActivationState, error: Error?) {}
+    #if os(iOS)
+    func sessionDidBecomeInactive(_ session: WCSession) {}
+    func sessionDidDeactivate(_ session: WCSession) { WCSession.default.activate() }
+    #endif
+}
+
+
+// Icloud
+//import Foundation
+//import WatchConnectivity
+//import SwiftData
+//
+//class WatchSyncManager: NSObject, WCSessionDelegate {
+//    static let shared = WatchSyncManager()
+//    var modelContext: ModelContext? // We will inject this from the UI
+//    
+//    func startSession() {
+//        if WCSession.isSupported() {
+//            WCSession.default.delegate = self
+//            WCSession.default.activate()
+//        }
+//    }
+//    
+//    // The Watch calls this to beam the log to the iPhone
+//    func sendLogToPhone(categoryName: String) {
+//        if WCSession.default.isReachable {
+//            // If phone app is open, send instantly
+//            WCSession.default.sendMessage(["category": categoryName], replyHandler: nil)
+//        } else {
+//            // If phone app is closed, queue it up for immediate delivery when opened
+//            WCSession.default.transferUserInfo(["category": categoryName, "timestamp": Date()])
+//        }
+//    }
+//    
+//    // --- iPhone Receiving Logic ---
+//    private func processReceivedLog(_ payload: [String: Any]) {
+//            guard let category = payload["category"] as? String else { return }
+//            
+//            // Use the main thread to interact with the database
+//            DispatchQueue.main.async {
+//                // Re-fetch the modelContext from the app's environment if needed
+//                // or ensure 'shared.modelContext' was set during app startup.
+//                if let context = self.modelContext {
+//                    let newLog = InterruptLog(categoryName: category)
+//                    context.insert(newLog)
+//                    
+//                    // CRITICAL: Force a save so the UI @Query sees it
+//                    try? context.save()
+//                    
+//                    print("📱 WCSession: Received and SAVED log for \(category)")
+//                } else {
+//                    print("📱 WCSession Error: ModelContext was nil on iPhone")
+//                }
+//            }
+//        }
+//    
+//    
+//    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) { processReceivedLog(message) }
+//    func session(_ session: WCSession, didReceiveUserInfo userInfo:[String : Any] = [:]) { processReceivedLog(userInfo) }
+//    
+//    // Required Delegate Boilerplate
+//    func session(_ session: WCSession, activationDidCompleteWith state: WCSessionActivationState, error: Error?) {}
+//    #if os(iOS)
+//    func sessionDidBecomeInactive(_ session: WCSession) {}
+//    func sessionDidDeactivate(_ session: WCSession) { WCSession.default.activate() }
+//    #endif
+//}
