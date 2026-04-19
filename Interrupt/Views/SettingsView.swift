@@ -30,6 +30,13 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
+                // MARK: - Legal Disclaimer Section
+                Section(header: Text("Medical & Legal Disclaimer")) {
+                    Text("Interrupt is designed as a lightweight self-help tool for momentary cognitive redirection. It is not intended to diagnose, treat, cure, or prevent any disease, mental health condition, or psychological disorder.\n\nThis application is not a substitute for professional therapy, counseling, or medical advice. If you are experiencing a mental health crisis, severe distress, or having thoughts of self-harm, please contact a qualified healthcare provider or emergency services immediately.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
+                
                 // MARK: - Appearance
                 Section(header: Text("Appearance")) {
                     Picker("Typography", selection: $appFontRaw) {
@@ -79,13 +86,6 @@ struct SettingsView: View {
                 // MARK: - Privacy Section
                 Section(header: Text("Privacy")) {
                     Text("Your mind is your own. All of your emotional data, trigger logs, and custom notes are stored locally on your device. We do not collect, read, transmit, or sell your personal data.")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-                
-                // MARK: - Legal Disclaimer Section
-                Section(header: Text("Medical & Legal Disclaimer")) {
-                    Text("Interrupt is designed as a lightweight self-help tool for momentary cognitive redirection. It is not intended to diagnose, treat, cure, or prevent any disease, mental health condition, or psychological disorder.\n\nThis application is not a substitute for professional therapy, counseling, or medical advice. If you are experiencing a mental health crisis, severe distress, or having thoughts of self-harm, please contact a qualified healthcare provider or emergency services immediately.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
