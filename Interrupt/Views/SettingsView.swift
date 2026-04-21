@@ -7,6 +7,7 @@
 
 
 import SwiftUI
+import SwiftData
 
 // 1. The Font Options
 enum AppFontDesign: String, CaseIterable {
@@ -27,6 +28,17 @@ struct SettingsView: View {
     // 2. AppStorage saves the user's choice permanently
     @AppStorage("appFontPreference") private var appFontRaw: String = AppFontDesign.rounded.rawValue
     
+    @State private var breathIOS = BreathingSettings.shared.isIOSEnabled
+    @State private var breathWatch = BreathingSettings.shared.isWatchEnabled
+    @State private var hapticsIOS = BreathingSettings.shared.hapticsIOS
+    @State private var hapticsWatch = BreathingSettings.shared.hapticsWatch
+    @State private var hapticStrength = BreathingSettings.shared.hapticStrength
+    
+    @Environment(\.modelContext) private var context
+        @State private var showingRestoreAlert = false
+    
+    @State private var showingOnboarding = false
+    
     var body: some View {
         NavigationStack {
             List {
@@ -45,6 +57,38 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.navigationLink)
+                }
+                
+                // MARK: - NEW: Breathing Configuration
+                Section(header: Text("Guided Breathing"), footer: Text("Take a 10-second guided breath before seeing your reframe.")) {
+                    Toggle("Enable on iPhone", isOn: $breathIOS)
+                        .onChange(of: breathIOS) { _, newValue in BreathingSettings.shared.isIOSEnabled = newValue }
+                    
+                    Toggle("Enable on Apple Watch", isOn: $breathWatch)
+                        .onChange(of: breathWatch) { _, newValue in BreathingSettings.shared.isWatchEnabled = newValue }
+                    
+                    NavigationLink("Emotions with Breathing") {
+                        BreathingEmotionsSelectionView()
+                    }
+                }
+                
+                Section(header: Text("Haptics & Feedback"), footer: Text("Apple Watch haptic intensity is controlled in your main Watch Settings app.")) {
+                    Toggle("Haptics on iPhone", isOn: $hapticsIOS)
+                        .onChange(of: hapticsIOS) { _, newValue in BreathingSettings.shared.hapticsIOS = newValue }
+                    
+                    Toggle("Haptics on Apple Watch", isOn: $hapticsWatch)
+                        .onChange(of: hapticsWatch) { _, newValue in BreathingSettings.shared.hapticsWatch = newValue }
+                    
+                    if hapticsIOS {
+                        Picker("iPhone Haptic Strength", selection: $hapticStrength) {
+                            Text("1 (Light)").tag(1)
+                            Text("2 (Medium)").tag(2)
+                            Text("3 (Heavy)").tag(3)
+                        }
+                        .pickerStyle(.segmented)
+                        .onChange(of: hapticStrength) { _, newValue in BreathingSettings.shared.hapticStrength = newValue }
+                        .padding(.vertical, 4)
+                    }
                 }
                 
                 Section(header: Text("How to Use Interrupt")) {
@@ -89,6 +133,41 @@ struct SettingsView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
+                
+                Section(header: Text("Purchases")) {
+                    Button(action: {
+                        Task {
+                            // Call the manager to check Apple's servers
+                            await StoreManager.shared.updatePurchasedStatus(context: context)
+                            
+                            // Show a success message
+                            showingRestoreAlert = true
+                        }
+                    }) {
+                        Text("Restore Purchases")
+                            .foregroundStyle(Color.accentColor)
+                    }
+                }
+                
+                Section {
+                    Button(action: { showingOnboarding = true }) {
+                        HStack {
+                            Text("Replay Welcome Guide")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Image(systemName: "sparkles")
+                                .foregroundStyle(Color.accentColor)
+                        }
+                    }
+                }
+            }
+            .fullScreenCover(isPresented: $showingOnboarding) {
+                OnboardingView()
+            }
+            .alert("Purchases Restored", isPresented: $showingRestoreAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("Your previous purchases have been successfully restored.")
             }
             .navigationTitle("Settings")
         }
@@ -111,6 +190,51 @@ struct InfoRow: View {
                 Text(title).font(.headline)
                 Text(text).font(.subheadline).foregroundStyle(.secondary)
             }
+        }
+    }
+}
+
+struct BreathingEmotionsSelectionView: View {
+    @Query(sort: \EmotionTrigger.name) private var triggers: [EmotionTrigger]
+    
+    // NEW: Local state for instant UI updates
+    @State private var enabledEmotions: Set<String> = []
+    
+    var body: some View {
+        List {
+            Text("Select which emotional triggers should guide you through a deep breath before showing the intervention quote.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .padding(.bottom, 8)
+            
+            ForEach(triggers.filter { !$0.isHidden }) { trigger in
+                HStack {
+                    Text(trigger.name)
+                    Spacer()
+                    // Instant UI check
+                    if enabledEmotions.contains(trigger.name) {
+                        Image(systemName: "checkmark").foregroundStyle(Color.accentColor)
+                    }
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    // Update local UI instantly
+                    if enabledEmotions.contains(trigger.name) {
+                        enabledEmotions.remove(trigger.name)
+                    } else {
+                        enabledEmotions.insert(trigger.name)
+                    }
+                    // Save to backend
+                    BreathingSettings.shared.toggleBreathing(for: trigger.name)
+                }
+            }
+        }
+        .navigationTitle("Breathing Triggers")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            // Load the saved data when the view opens
+            let savedList = UserDefaults(suiteName: DatabaseHelper.appGroupID)?.stringArray(forKey: "breath_emotions") ?? []
+            enabledEmotions = Set(savedList)
         }
     }
 }

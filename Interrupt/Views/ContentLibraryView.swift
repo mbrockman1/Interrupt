@@ -1,26 +1,31 @@
 import SwiftUI
 import SwiftData
+import LinkPresentation
+import StoreKit
 
 struct ContentLibraryView: View {
-    @Query private var allPacks: [ContentPack]
+    @Query(sort: \ContentPack.title) private var allPacks: [ContentPack]
     @Query(sort: \EmotionTrigger.name) private var triggers: [EmotionTrigger]
     @Query private var allMessages: [InterruptMessage]
     @Environment(\.modelContext) private var context
     
-    // Separate purchased from unpurchased packs with custom sorting
-    private var purchasedPacks: [ContentPack] { 
-        allPacks.filter { $0.isPurchased }
-            .sorted { pack1, pack2 in
-                // Always put "custom" (My Custom Notes) first
-                if pack1.id == "custom" { return true }
-                if pack2.id == "custom" { return false }
-                // Then sort alphabetically by title
-                return pack1.title < pack2.title
-            }
+    @StateObject private var store = StoreManager.shared 
+    
+    // Sort so Custom is 1st, Received is 2nd, Core is 3rd, everything else alphabetical
+    private var myPacks: [ContentPack] {
+        allPacks.filter { $0.isPurchased }.sorted { a, b in
+            if a.id == "custom" { return true }
+            if b.id == "custom" { return false }
+            if a.id == "received" { return true }
+            if b.id == "received" { return false }
+            if a.id == "core" { return true }
+            if b.id == "core" { return false }
+            return a.title < b.title
+        }
     }
-    private var availableForPurchase: [ContentPack] { 
-        allPacks.filter { !$0.isPurchased }
-            .sorted { $0.title < $1.title }
+    
+    private var storePacks: [ContentPack] {
+        allPacks.filter { !$0.isPurchased }.sorted { $0.title < $1.title }
     }
     
     var body: some View {
@@ -28,48 +33,61 @@ struct ContentLibraryView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 30) {
                     
-                    // SECTION 1: My Library (Purchased Packs)
-                    if !purchasedPacks.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("My Library")
-                                .font(.title2).bold()
-                                .padding(.horizontal)
+                    // SECTION 1: MY LIBRARY
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("My Library")
+                            .font(.title2).bold()
+                            .padding(.horizontal)
+                        
+                        ForEach(myPacks) { pack in
+                            let packMessages = allMessages.filter { $0.packID == pack.id }
+                            let isPackActive = packMessages.contains { $0.isActive }
                             
-                            ForEach(purchasedPacks) { pack in
+                            HStack {
                                 NavigationLink(destination: PackDetailView(pack: pack, triggers: triggers)) {
                                     PackCardView(pack: pack)
                                 }
                                 .buttonStyle(.plain)
+                                
+                                Toggle("", isOn: Binding(
+                                    get: { isPackActive },
+                                    set: { newValue in
+                                        withAnimation {
+                                            for msg in packMessages { msg.isActive = newValue }
+                                            try? context.save()
+                                            syncLibraryToWatch()
+                                        }
+                                    }
+                                ))
+                                .labelsHidden()
+                                .padding(.trailing, 24)
                             }
+                            .background(Color(uiColor: .secondarySystemGroupedBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .padding(.horizontal)
                         }
                     }
                     
-                    // DIVIDER between sections
-                    if !purchasedPacks.isEmpty && !availableForPurchase.isEmpty {
+                    // SECTION 2: DISCOVER (STOREFRONT)
+                    if !storePacks.isEmpty {
                         Divider()
                             .padding(.horizontal)
-                    }
-                    
-                    // SECTION 2: Available Packs (Purchasable)
-                    if !availableForPurchase.isEmpty {
+                        
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("Available Packs")
+                            Text("Discover Packs")
                                 .font(.title2).bold()
                                 .padding(.horizontal)
                             
-                            Text("Premium content coming soon")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal)
-                            
-                            ForEach(availableForPurchase) { pack in
-                                Button(action: { 
-                                    // TODO: Trigger StoreKit Purchase
-                                    purchasePack(pack)
-                                }) {
+                            ForEach(storePacks) { pack in
+                                NavigationLink(destination: PackDetailView(pack: pack, triggers: triggers)) {
                                     PackCardView(pack: pack)
                                 }
                                 .buttonStyle(.plain)
+                                .background(Color(uiColor: .secondarySystemGroupedBackground))
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .padding(.horizontal)
+                                // NEW: Fetch Apple's price to display in the card if you want,
+                                // but our hardcoded $0.99 works fine for now!
                             }
                         }
                     }
@@ -81,14 +99,6 @@ struct ContentLibraryView: View {
         }
     }
     
-    private func purchasePack(_ pack: ContentPack) {
-        // TODO: Integrate StoreKit here
-        // For now, just mark as purchased for testing
-        pack.isPurchased = true
-        try? context.save()
-        syncLibraryToWatch()
-    }
-    
     private func syncLibraryToWatch() {
         if let messages = try? context.fetch(FetchDescriptor<InterruptMessage>()) {
             WatchSyncManager.shared.syncLibraryToWatch(messages: messages)
@@ -96,36 +106,21 @@ struct ContentLibraryView: View {
     }
 }
 
-// MARK: - Pack Card Component
 struct PackCardView: View {
     let pack: ContentPack
     
     var body: some View {
         HStack(spacing: 16) {
-            // Icon based on pack status
             ZStack {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                     .fill(pack.isPurchased ? Color.accentColor.opacity(0.15) : Color.gray.opacity(0.1))
                 
-                if pack.isPurchased {
-                    if pack.id == "custom" {
-                        Image(systemName: "square.and.pencil")
-                            .foregroundStyle(Color.accentColor)
-                            .font(.title3)
-                    } else {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(Color.accentColor)
-                            .font(.title3)
-                    }
-                } else {
-                    Image(systemName: "lock.fill")
-                        .foregroundStyle(.secondary)
-                        .font(.title3)
-                }
+                Image(systemName: packIcon)
+                    .foregroundStyle(pack.isPurchased ? Color.accentColor : .secondary)
+                    .font(.title3)
             }
             .frame(width: 56, height: 56)
             
-            // Pack info
             VStack(alignment: .leading, spacing: 4) {
                 Text(pack.title)
                     .font(.headline)
@@ -136,38 +131,41 @@ struct PackCardView: View {
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
             }
-            
             Spacer()
             
-            // Trailing icon
             if pack.isPurchased {
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .foregroundStyle(.tertiary)
             } else {
-                // Show "Get" button for unpurchased packs
-                Text("Get")
+                // We show the $0.99 tag here for UI polish!
+                Text("Free")
                     .font(.subheadline.bold())
                     .foregroundStyle(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 6)
                     .background(Color.accentColor)
                     .clipShape(Capsule())
+                    .padding(.trailing, 16)
             }
         }
-        .padding()
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .padding(.horizontal)
+        .padding(.vertical, 12)
+        .padding(.leading, 16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .strokeBorder(pack.isPurchased ? Color.clear : Color.accentColor.opacity(0.3), lineWidth: 1)
-                .padding(.horizontal)
         )
+    }
+    
+    private var packIcon: String {
+        if !pack.isPurchased { return "lock.fill" }
+        if pack.id == "custom" { return "square.and.pencil" }
+        if pack.id == "received" { return "face.smiling.fill" }
+        if pack.id == "core" { return "heart.text.square.fill" }
+        return "checkmark.circle.fill"
     }
 }
 
-// MARK: - Drilled Down Pack View
 struct PackDetailView: View {
     let pack: ContentPack
     let triggers: [EmotionTrigger]
@@ -177,30 +175,72 @@ struct PackDetailView: View {
     @State private var showingAddSheet = false
     @State private var messageToEdit: InterruptMessage?
     
+    // Check if the user owns this pack
+    private var isPreviewMode: Bool { !pack.isPurchased }
+    
     var body: some View {
         List {
+            // PROMINENT UNLOCK BUTTON FOR PREVIEW MODE
+            if isPreviewMode {
+                Section {
+                    VStack(alignment: .center, spacing: 12) {
+                        Text("Preview Mode")
+                            .font(.headline)
+                            .foregroundStyle(Color.accentColor)
+                        
+                        Text("You can read the contents of this pack for free. To use these quotes in your active Interrupts, unlock the pack.")
+                            .font(.subheadline)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.secondary)
+                        
+                        Button(action: {
+                            Task {
+                                // 1. Find the Apple Product matching this Pack
+                                if let product = StoreManager.shared.products.first(where: { $0.id == pack.id }) {
+                                    // 2. Trigger the Apple Pay Sheet!
+                                    await StoreManager.shared.purchase(product, pack: pack, context: context)
+                                } else {
+                                    print("Product not loaded from StoreKit yet.")
+                                }
+                            }
+                        }) {
+                            Text("Unlock Pack for $0.99")
+                                .font(.headline)
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(Color.accentColor.gradient)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.top, 8)
+                    }
+                    .padding(.vertical, 8)
+                }
+            }
+            
             let packMessages = allMessages.filter { $0.packID == pack.id }
             let unlinkedMessages = packMessages.filter { $0.categoryName == "Unlinked" }
             
-            // 1. Standard Triggers
             ForEach(triggers) { trigger in
                 let triggerMessages = packMessages.filter { $0.categoryName == trigger.name }
                 if !triggerMessages.isEmpty {
                     Section(header: Text(trigger.name)) {
                         ForEach(triggerMessages) { msg in
-                            Button(action: { messageToEdit = msg }) {
-                                PackMessageRow(msg: msg)
+                            Button(action: {
+                                // Disable opening the edit sheet in preview mode
+                                if !isPreviewMode { messageToEdit = msg }
+                            }) {
+                                PackMessageRow(msg: msg, isPreviewMode: isPreviewMode)
                             }
                             .buttonStyle(.plain)
                         }
                         .onDelete { indexSet in
                             for index in indexSet {
                                 let msg = triggerMessages[index]
-                                if msg.packID == "custom" {
-                                    // Custom notes are permanently deleted
+                                if msg.packID == "custom" || msg.packID == "received" {
                                     context.delete(msg)
                                 } else {
-                                    // Pack notes are protected: move to unlinked and disable
                                     msg.categoryName = "Unlinked"
                                     msg.isActive = false
                                 }
@@ -208,28 +248,20 @@ struct PackDetailView: View {
                             try? context.save()
                             syncLibraryToWatch()
                         }
+                        // Disables swipe-to-delete completely in Preview mode!
+                        .deleteDisabled(isPreviewMode)
                     }
                 }
             }
             
-            // 2. The "Unlinked" Section
             if !unlinkedMessages.isEmpty {
-                Section(header: Text("Unlinked"), footer: Text("Tap a message to reassign it to an active emotion. Built-in pack messages cannot be permanently deleted.")) {
+                Section(header: Text("Unlinked"), footer: Text("Tap a message to reassign it to an active emotion.")) {
                     ForEach(unlinkedMessages) { msg in
                         Button(action: { messageToEdit = msg }) {
-                            PackMessageRow(msg: msg)
+                            PackMessageRow(msg: msg, isPreviewMode: isPreviewMode)
                         }
                         .buttonStyle(.plain)
-                        // MAGIC: Disables the swipe-to-delete gesture for Pack quotes!
-                        .deleteDisabled(msg.packID != "custom")
-                    }
-                    .onDelete { indexSet in
-                        // This will only ever trigger for custom notes because of deleteDisabled above
-                        for index in indexSet {
-                            context.delete(unlinkedMessages[index])
-                        }
-                        try? context.save()
-                        syncLibraryToWatch()
+                        .deleteDisabled(msg.packID != "custom" && msg.packID != "received")
                     }
                 }
             }
@@ -262,6 +294,7 @@ struct PackDetailView: View {
 // MARK: - Message Row
 struct PackMessageRow: View {
     @Bindable var msg: InterruptMessage
+    let isPreviewMode: Bool
     @Environment(\.modelContext) private var context
     
     var body: some View {
@@ -269,8 +302,9 @@ struct PackMessageRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(msg.text)
                     .font(.body)
-                    .foregroundStyle(msg.isActive ? .primary : .secondary)
-                    .strikethrough(!msg.isActive)
+                    // If in preview mode, it always looks 'primary' so it's easy to read
+                    .foregroundStyle((msg.isActive || isPreviewMode) ? .primary : .secondary)
+                    .strikethrough(!msg.isActive && !isPreviewMode)
                 
                 Text(msg.typeRaw)
                     .font(.caption2).bold()
@@ -278,15 +312,18 @@ struct PackMessageRow: View {
             }
             Spacer()
             
-            Toggle("", isOn: Binding(
-                get: { msg.isActive },
-                set: { newValue in
-                    msg.isActive = newValue
-                    try? context.save()
-                    syncLibraryToWatch()
-                }
-            ))
-            .labelsHidden()
+            // Hides the active/inactive toggle if they haven't bought it yet
+            if !isPreviewMode {
+                Toggle("", isOn: Binding(
+                    get: { msg.isActive },
+                    set: { newValue in
+                        msg.isActive = newValue
+                        try? context.save()
+                        syncLibraryToWatch()
+                    }
+                ))
+                .labelsHidden()
+            }
         }
         .padding(.vertical, 4)
     }
@@ -357,7 +394,6 @@ struct AddMessageView: View {
 }
 
 // MARK: - Edit Message View
-// MARK: - Edit Message View
 struct EditMessageView: View {
     @Bindable var message: InterruptMessage
     let triggers: [EmotionTrigger]
@@ -406,6 +442,33 @@ struct EditMessageView: View {
             .navigationTitle(message.packID == "custom" ? "Edit Note" : "Reassign Quote")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    if let shareURL = ShareHelper.createShareURL(for: message) {
+                        
+                        // NEW: Format a beautiful text message so the receiver reads the quote in iMessage,
+                        // and the "ugly" link is just a tiny clickable button at the bottom.
+                        let shareText = """
+                        A note for \(message.categoryName):
+                        
+                        "\(message.text)"
+                        
+                        Tap to save to your Interrupt app:
+                        \(shareURL.absoluteString)
+                        """
+                        
+                        // Share the formatted text, not just the raw URL
+                        ShareLink(
+                            item: shareText,
+                            preview: SharePreview(
+                                "Interrupt Note",
+                                image: Image("WidgetIcon")
+                            )
+                        ) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                    }
+                }
+                
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
                         try? context.save()

@@ -97,12 +97,15 @@ struct WatchContentView: View {
         
         // 4. Show the message
         let message = MessageStore.shared.getMessage(for: categoryName, context: context)
+        
+        // CHECK SETTINGS
         activeMessage = message
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             WKInterfaceDevice.current().play(.success)
         }
     }
+
     
     private func updateWidgetList() {
             // Grab only the active names

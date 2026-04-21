@@ -90,7 +90,9 @@ struct InterruptView: View {
                 }
             }
             .fullScreenCover(item: $activeMessage) { msg in
-                MessageCardView(message: msg)
+                let needsBreathing = BreathingSettings.shared.isIOSEnabled && BreathingSettings.shared.hasBreathing(for: msg.categoryName)
+                
+                MessageCardView(message: msg, requiresBreathing: needsBreathing)
             }
             .alert("New Emotion", isPresented: $showingAddTrigger) {
                 TextField("E.g., Overwhelmed", text: $newTriggerName)

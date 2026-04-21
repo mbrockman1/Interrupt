@@ -63,6 +63,8 @@ class WatchSyncManager: NSObject, WCSessionDelegate {
     private func handleIncomingPayload(_ payload: [String: Any]) {
         guard let context = modelContext else { return }
         
+        
+        
         // 1. Receive Analytics (FIXED: Now reads the exact historical timestamp!)
         if let category = payload["log_category"] as? String {
             // Extract the time you actually tapped the watch, fallback to current time if missing
@@ -84,6 +86,23 @@ class WatchSyncManager: NSObject, WCSessionDelegate {
         // 3. Receive Trigger Sync
         if let triggerData = payload["trigger_sync"] as? [[String: Any]] {
             DispatchQueue.main.async { self.processTriggerSync(triggerData, context: context) }
+        }
+        if let settings = payload["breathing_settings"] as? [String: Any] {
+            if let emotions = settings["breath_emotions"] as? [String] {
+                UserDefaults(suiteName: DatabaseHelper.appGroupID)?.set(emotions, forKey: "breath_emotions")
+            }
+            if let watchEnabled = settings["breath_watch"] as? Bool {
+                UserDefaults(suiteName: DatabaseHelper.appGroupID)?.set(watchEnabled, forKey: "breath_watch")
+            }
+            // ADD THIS LINE:
+            if let watchHaptics = settings["haptics_watch"] as? Bool {
+                UserDefaults(suiteName: DatabaseHelper.appGroupID)?.set(watchHaptics, forKey: "haptics_watch")
+            }
+            
+            if let strength = settings["haptic_strength"] as? Int {
+                            UserDefaults(suiteName: DatabaseHelper.appGroupID)?.set(strength, forKey: "haptic_strength")
+                        }
+            print("⌚️ Watch: Breathing settings synced successfully!")
         }
     }
 
