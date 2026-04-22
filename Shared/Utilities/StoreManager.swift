@@ -94,4 +94,22 @@ class StoreManager: ObservableObject {
             WatchSyncManager.shared.syncLibraryToWatch(messages: allMessages)
         }
     }
+    
+    // Call this function when the user taps "Restore Purchases"
+    func restorePurchases(context: ModelContext) async {
+        // Ask Apple for all previous purchases
+        for await result in Transaction.currentEntitlements {
+            guard case .verified(let transaction) = result else { continue }
+            
+            // Find the pack and unlock it
+            let packID = transaction.productID
+            let fetch = FetchDescriptor<ContentPack>(predicate: #Predicate { $0.id == packID })
+            
+            if let pack = (try? context.fetch(fetch))?.first {
+                pack.isPurchased = true
+            }
+        }
+        try? context.save()
+        print("✅ Purchases restored from Apple!")
+    }
 }

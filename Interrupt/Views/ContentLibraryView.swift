@@ -204,7 +204,7 @@ struct PackDetailView: View {
                                 }
                             }
                         }) {
-                            Text("Unlock Pack for $0.99")
+                            Text("Unlock Pack")
                                 .font(.headline)
                                 .foregroundStyle(.white)
                                 .frame(maxWidth: .infinity)

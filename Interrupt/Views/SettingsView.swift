@@ -138,7 +138,7 @@ struct SettingsView: View {
                     Button(action: {
                         Task {
                             // Call the manager to check Apple's servers
-                            await StoreManager.shared.updatePurchasedStatus(context: context)
+                            await StoreManager.shared.restorePurchases(context: context)
                             
                             // Show a success message
                             showingRestoreAlert = true
