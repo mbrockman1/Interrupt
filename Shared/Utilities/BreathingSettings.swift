@@ -65,7 +65,6 @@ class BreathingSettings {
         
         // Grab the strength setting
         let strength = store?.integer(forKey: "haptic_strength") == 0 ? 2 : store!.integer(forKey: "haptic_strength")
-        
         let payload: [String: Any] = ["breathing_settings": [
             "breath_emotions": list,
             "breath_watch": watchEnabled,

@@ -4,8 +4,6 @@
 //
 //  Created by Michael Brockman on 4/13/26.
 //
-
-
 import Foundation
 
 struct ImposterSyndromeMessages {

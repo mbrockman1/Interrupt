@@ -227,29 +227,21 @@ struct PackDetailView: View {
                 if !triggerMessages.isEmpty {
                     Section(header: Text(trigger.name)) {
                         ForEach(triggerMessages) { msg in
-                            Button(action: {
-                                // Disable opening the edit sheet in preview mode
-                                if !isPreviewMode { messageToEdit = msg }
-                            }) {
-                                PackMessageRow(msg: msg, isPreviewMode: isPreviewMode)
-                            }
-                            .buttonStyle(.plain)
+                            PackMessageRow(msg: msg, isPreviewMode: isPreviewMode)
+                                .contentShape(Rectangle()) // Makes the whole row tappable
+                                .onTapGesture {
+                                    if !isPreviewMode { messageToEdit = msg }
+                                }
                         }
                         .onDelete { indexSet in
                             for index in indexSet {
-                                let msg = triggerMessages[index]
-                                if msg.packID == "custom" || msg.packID == "received" {
-                                    context.delete(msg)
-                                } else {
-                                    msg.categoryName = "Unlinked"
-                                    msg.isActive = false
-                                }
+                                context.delete(triggerMessages[index])
                             }
                             try? context.save()
                             syncLibraryToWatch()
                         }
                         // Disables swipe-to-delete completely in Preview mode!
-                        .deleteDisabled(isPreviewMode)
+                        .deleteDisabled(pack.id != "custom" && pack.id != "received")
                     }
                 }
             }
@@ -257,12 +249,23 @@ struct PackDetailView: View {
             if !unlinkedMessages.isEmpty {
                 Section(header: Text("Unlinked"), footer: Text("Tap a message to reassign it to an active emotion.")) {
                     ForEach(unlinkedMessages) { msg in
-                        Button(action: { messageToEdit = msg }) {
-                            PackMessageRow(msg: msg, isPreviewMode: isPreviewMode)
-                        }
-                        .buttonStyle(.plain)
-                        .deleteDisabled(msg.packID != "custom" && msg.packID != "received")
+                        // FIXED: Removed Button and used onTapGesture so swiping works!
+                        PackMessageRow(msg: msg, isPreviewMode: isPreviewMode)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                messageToEdit = msg
+                            }
                     }
+                    // FIXED: Added the onDelete block so Custom/Received notes can actually be deleted from here
+                    .onDelete { indexSet in
+                        for index in indexSet {
+                            context.delete(unlinkedMessages[index])
+                        }
+                        try? context.save()
+                        syncLibraryToWatch()
+                    }
+                    // Safely disables deleting if it's a Core/Premium pack
+                    .deleteDisabled(pack.id != "custom" && pack.id != "received")
                 }
             }
         }
@@ -442,29 +445,26 @@ struct EditMessageView: View {
             .navigationTitle(message.packID == "custom" ? "Edit Note" : "Reassign Quote")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                // FIXED 3: The Share button ONLY appears for Custom or Received notes!
                 ToolbarItem(placement: .topBarTrailing) {
-                    if let shareURL = ShareHelper.createShareURL(for: message) {
-                        
-                        // NEW: Format a beautiful text message so the receiver reads the quote in iMessage,
-                        // and the "ugly" link is just a tiny clickable button at the bottom.
-                        let shareText = """
-                        A note for \(message.categoryName):
-                        
-                        "\(message.text)"
-                        
-                        Tap to save to your Interrupt app:
-                        \(shareURL.absoluteString)
-                        """
-                        
-                        // Share the formatted text, not just the raw URL
-                        ShareLink(
-                            item: shareText,
-                            preview: SharePreview(
-                                "Interrupt Note",
-                                image: Image("WidgetIcon")
-                            )
-                        ) {
-                            Image(systemName: "square.and.arrow.up")
+                    if message.packID == "custom" || message.packID == "received" {
+                        if let shareURL = ShareHelper.createShareURL(for: message) {
+                            
+                            let shareText = """
+                            A note for \(message.categoryName):
+                            
+                            "\(message.text)"
+                            
+                            Tap to save to your Interrupt app:
+                            \(shareURL.absoluteString)
+                            """
+                            
+                            ShareLink(
+                                item: shareText,
+                                preview: SharePreview("Interrupt Note", image: Image("WidgetIcon"))
+                            ) {
+                                Image(systemName: "square.and.arrow.up")
+                            }
                         }
                     }
                 }
