@@ -1,6 +1,8 @@
 import SwiftUI
 import SwiftData
+#if canImport(FirebaseAnalytics)
 import FirebaseAnalytics
+#endif
 
 struct WatchContentView: View {
     @Environment(\.modelContext) private var context
@@ -94,18 +96,22 @@ struct WatchContentView: View {
             try context.save()
         } catch {
             print("❌ Failed to save watch log: \(error)")
+            #if canImport(FirebaseAnalytics)
             Analytics.logEvent("watch_log_save_error", parameters: ["category": categoryName])
+            #endif
         }
 
         // 3. THE FIX: SEND TO IPHONE INSTANTLY
         // This tells the SyncManager to beam the log over Bluetooth/Wi-Fi
         WatchSyncManager.shared.sendLogToPhone(categoryName: categoryName)
 
-        // Track in Firebase Analytics
+        // Track in Firebase Analytics (only where Firebase is linked)
+        #if canImport(FirebaseAnalytics)
         Analytics.logEvent("watch_interrupt_triggered", parameters: [
             "emotion": categoryName,
             "timestamp": Date().timeIntervalSince1970
         ])
+        #endif
 
         // 4. Show the message
         let message = MessageStore.shared.getMessage(for: categoryName, context: context)
