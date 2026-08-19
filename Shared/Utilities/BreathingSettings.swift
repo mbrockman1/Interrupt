@@ -8,6 +8,7 @@
 
 import Foundation
 import WatchConnectivity
+import FirebaseAnalytics
 
 class BreathingSettings {
     static let shared = BreathingSettings()
@@ -48,12 +49,22 @@ class BreathingSettings {
     
     func toggleBreathing(for emotion: String) {
         var list = store?.stringArray(forKey: "breath_emotions") ?? []
-        if list.contains(emotion) {
-            list.removeAll { $0 == emotion }
-        } else {
+        let isEnabling = !list.contains(emotion)
+
+        if isEnabling {
             list.append(emotion)
+        } else {
+            list.removeAll { $0 == emotion }
         }
+
         store?.set(list, forKey: "breath_emotions")
+
+        // Track in Firebase Analytics
+        Analytics.logEvent("breathing_toggled", parameters: [
+            "emotion": emotion,
+            "enabled": isEnabling
+        ])
+
         syncToWatch()
     }
     

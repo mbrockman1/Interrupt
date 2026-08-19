@@ -2,6 +2,7 @@ import Foundation
 import StoreKit
 import SwiftData
 import Combine
+import FirebaseAnalytics
 
 @MainActor
 class StoreManager: ObservableObject {
@@ -33,34 +34,58 @@ class StoreManager: ObservableObject {
     func purchase(_ product: Product, pack: ContentPack, context: ModelContext) async {
         do {
             let result = try await product.purchase()
-            
+
             switch result {
             case .success(let verification):
                 // Verify the transaction is cryptographically signed by Apple
-                guard case .verified(let transaction) = verification else { return }
-                
+                guard case .verified(let transaction) = verification else {
+                    Analytics.logEvent("purchase_verification_failed", parameters: ["pack": pack.id])
+                    return
+                }
+
                 // UNLOCK IN THE DATABASE!
                 pack.isPurchased = true
-                try? context.save()
-                
+                do {
+                    try context.save()
+                } catch {
+                    Analytics.logEvent("purchase_save_error", parameters: ["pack": pack.id])
+                    print("❌ Failed to save purchase: \(error)")
+                }
+
                 // Sync the unlock to the Apple Watch
                 if let allMessages = try? context.fetch(FetchDescriptor<InterruptMessage>()) {
                     WatchSyncManager.shared.syncLibraryToWatch(messages: allMessages)
                 }
-                
+
                 // Tell Apple we delivered the content
                 await transaction.finish()
-                
+
                 // Update local UI state
                 purchasedProductIDs.insert(product.id)
+
+                // Track successful purchase
+                Analytics.logEvent("purchase_completed", parameters: [
+                    "pack_id": pack.id,
+                    "product_id": product.id,
+                    "price": NSNumber(value: Decimal(string: product.displayPrice) ?? 0.99)
+                ])
+
                 print("✅ StoreKit: Purchase successful for \(pack.id)")
-                
-            case .userCancelled, .pending:
-                print("⚠️ StoreKit: Purchase cancelled or pending")
+
+            case .userCancelled:
+                Analytics.logEvent("purchase_cancelled", parameters: ["pack": pack.id])
+                print("⚠️ StoreKit: Purchase cancelled")
+            case .pending:
+                Analytics.logEvent("purchase_pending", parameters: ["pack": pack.id])
+                print("⚠️ StoreKit: Purchase pending")
             @unknown default:
                 break
             }
         } catch {
+            Analytics.logEvent("purchase_error", parameters: [
+                "pack": pack.id,
+                "error": error.localizedDescription
+            ])
             print("❌ StoreKit: Purchase failed - \(error)")
         }
     }

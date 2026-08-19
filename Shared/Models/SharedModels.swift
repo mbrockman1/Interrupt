@@ -59,28 +59,6 @@ final class ContentPack {
     }
 }
 
-//iCloud
-//@Model
-//final class InterruptMessage {
-//    var id: UUID = UUID()
-//    var text: String = ""
-//    var typeRaw: String = "Affirmation"
-//    var categoryName: String = "Stress"
-//    var isActive: Bool = true
-//    
-//    // NEW: Associates this message with a specific pack
-//    var packID: String = "core"
-//    
-//    init(id: UUID = UUID(), text: String, typeRaw: String, categoryName: String, packID: String = "core", isActive: Bool = true) {
-//        self.id = id
-//        self.text = text
-//        self.typeRaw = typeRaw
-//        self.categoryName = categoryName
-//        self.packID = packID
-//        self.isActive = isActive
-//    }
-//}
-
 @Model
 final class InterruptMessage {
     var id: UUID = UUID()

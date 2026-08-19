@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import FirebaseAnalytics
 
 struct WatchContentView: View {
     @Environment(\.modelContext) private var context
@@ -85,22 +86,33 @@ struct WatchContentView: View {
     private func triggerInterrupt(for categoryName: String) {
         // 1. Haptics
         WKInterfaceDevice.current().play(.click)
-        
+
         // 2. Log Locally on the Watch (Backup)
         let newLog = InterruptLog(categoryName: categoryName)
         context.insert(newLog)
-        try? context.save()
-        
+        do {
+            try context.save()
+        } catch {
+            print("❌ Failed to save watch log: \(error)")
+            Analytics.logEvent("watch_log_save_error", parameters: ["category": categoryName])
+        }
+
         // 3. THE FIX: SEND TO IPHONE INSTANTLY
         // This tells the SyncManager to beam the log over Bluetooth/Wi-Fi
         WatchSyncManager.shared.sendLogToPhone(categoryName: categoryName)
-        
+
+        // Track in Firebase Analytics
+        Analytics.logEvent("watch_interrupt_triggered", parameters: [
+            "emotion": categoryName,
+            "timestamp": Date().timeIntervalSince1970
+        ])
+
         // 4. Show the message
         let message = MessageStore.shared.getMessage(for: categoryName, context: context)
-        
+
         // CHECK SETTINGS
         activeMessage = message
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             WKInterfaceDevice.current().play(.success)
         }
