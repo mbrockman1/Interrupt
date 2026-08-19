@@ -67,7 +67,7 @@ class StoreManager: ObservableObject {
                 Analytics.logEvent("purchase_completed", parameters: [
                     "pack_id": pack.id,
                     "product_id": product.id,
-                    "price": NSNumber(value: Decimal(string: product.displayPrice) ?? 0.99)
+                    "price": NSNumber(value: Double(truncating: product.price as NSDecimalNumber))
                 ])
 
                 print("✅ StoreKit: Purchase successful for \(pack.id)")
