@@ -1,7 +1,7 @@
 # Interrupt App - Architecture & Development Guide
 
-**Version:** 0.20260819  
-**Last Updated:** August 19, 2026  
+**Version:** 0.20260820  
+**Last Updated:** August 20, 2026  
 **Developer:** Michael Brockman
 
 ---
@@ -227,11 +227,16 @@ do {
 ```
 
 ### Firebase Integration
-**Current State (v0.20260819):**
-- ✅ FirebaseCore + FirebaseAnalytics + FirebaseCrashlytics imported
-- ✅ `FirebaseApp.configure()` in both iOS and watch app `init()`
+**Current State (v0.20260820):**
+- ✅ FirebaseCore + FirebaseAnalytics (non-ad-tracking variant) + FirebaseCrashlytics imported
+- ✅ `FirebaseApp.configure()` in the iOS app `init()` (Watch App target does not link Firebase yet)
 - ✅ Analytics events logged on: launch, interrupt, purchase, breathing changes
 - ✅ Crashlytics enabled for automatic crash collection
+- ✅ Links `FirebaseAnalyticsWithoutAdIdSupport` instead of `FirebaseAnalytics` — this app does not do
+  ad-attribution or cross-app tracking, so the SPM product that skips linking
+  `AppTrackingTransparency`/`AdSupport` is used. This avoids Apple's "app contains
+  NSUserTrackingUsageDescription" App Store Connect flag without adding an ATT prompt
+  the app has no real use for.
 
 **Next Steps (Future Releases):**
 - [ ] Custom user properties (free vs. premium, usage tier)
@@ -385,6 +390,7 @@ BreathingSettings.toggleBreathing(emotion)
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.20260820 | Aug 20, 2026 | Removed IDFA/ATT linkage (switched to FirebaseAnalyticsWithoutAdIdSupport) to resolve App Store Connect tracking flag; fixed Decimal→Double price bug; fixed cross-target Firebase compile errors |
 | 0.20260819 | Aug 19, 2026 | Firebase initialization, analytics logging, dead code cleanup |
 | 0.20260422 | Apr 22, 2026 | Purchase system, watch sync, breathing animations |
 | 0.20260415 | Apr 15, 2026 | Initial multi-platform release |
