@@ -8,7 +8,7 @@
 
 import Foundation
 import WatchConnectivity
-#if canImport(FirebaseAnalytics)
+#if FIREBASE_ENABLED
 import FirebaseAnalytics
 #endif
 
@@ -62,7 +62,7 @@ class BreathingSettings {
         store?.set(list, forKey: "breath_emotions")
 
         // Track in Firebase Analytics (only where Firebase is linked)
-        #if canImport(FirebaseAnalytics)
+        #if FIREBASE_ENABLED
         Analytics.logEvent("breathing_toggled", parameters: [
             "emotion": emotion,
             "enabled": isEnabling

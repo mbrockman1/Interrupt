@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
-#if canImport(FirebaseAnalytics)
+import WatchKit
+#if FIREBASE_ENABLED
 import FirebaseAnalytics
 #endif
 
@@ -96,7 +97,7 @@ struct WatchContentView: View {
             try context.save()
         } catch {
             print("❌ Failed to save watch log: \(error)")
-            #if canImport(FirebaseAnalytics)
+            #if FIREBASE_ENABLED
             Analytics.logEvent("watch_log_save_error", parameters: ["category": categoryName])
             #endif
         }
@@ -106,7 +107,7 @@ struct WatchContentView: View {
         WatchSyncManager.shared.sendLogToPhone(categoryName: categoryName)
 
         // Track in Firebase Analytics (only where Firebase is linked)
-        #if canImport(FirebaseAnalytics)
+        #if FIREBASE_ENABLED
         Analytics.logEvent("watch_interrupt_triggered", parameters: [
             "emotion": categoryName,
             "timestamp": Date().timeIntervalSince1970

@@ -1,4 +1,5 @@
 import SwiftUI
+import WatchKit
 
 struct WatchMessageCardView: View {
     let message: InterruptMessage

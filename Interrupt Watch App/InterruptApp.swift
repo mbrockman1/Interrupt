@@ -1,6 +1,6 @@
 import SwiftUI
 import SwiftData
-#if canImport(FirebaseCore)
+#if FIREBASE_ENABLED
 import FirebaseCore
 import FirebaseAnalytics
 #endif
@@ -11,7 +11,7 @@ struct Interrupt_WatchApp: App {
 
     init() {
         // Initialize Firebase (only active once linked to this target)
-        #if canImport(FirebaseCore)
+        #if FIREBASE_ENABLED
         FirebaseApp.configure()
         #endif
     }
@@ -24,7 +24,7 @@ struct Interrupt_WatchApp: App {
                     WatchSyncManager.shared.startSession()
 
                     // Log watch app launch
-                    #if canImport(FirebaseAnalytics)
+                    #if FIREBASE_ENABLED
                     Analytics.logEvent("watch_app_launch", parameters: [
                         "device": "apple_watch"
                     ])

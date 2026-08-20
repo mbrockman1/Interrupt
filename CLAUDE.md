@@ -228,15 +228,21 @@ do {
 
 ### Firebase Integration
 **Current State (v0.20260820):**
-- ✅ FirebaseCore + FirebaseAnalytics (non-ad-tracking variant) + FirebaseCrashlytics imported
+- ✅ FirebaseCore + FirebaseAnalytics + FirebaseCrashlytics imported (main `Interrupt` iOS target only —
+  gated behind the `FIREBASE_ENABLED` Swift compilation flag, set only on that target, so shared files
+  compiled into the Watch App / Widget / Complications extensions compile cleanly without linking Firebase)
 - ✅ `FirebaseApp.configure()` in the iOS app `init()` (Watch App target does not link Firebase yet)
 - ✅ Analytics events logged on: launch, interrupt, purchase, breathing changes
 - ✅ Crashlytics enabled for automatic crash collection
-- ✅ Links `FirebaseAnalyticsWithoutAdIdSupport` instead of `FirebaseAnalytics` — this app does not do
-  ad-attribution or cross-app tracking, so the SPM product that skips linking
-  `AppTrackingTransparency`/`AdSupport` is used. This avoids Apple's "app contains
-  NSUserTrackingUsageDescription" App Store Connect flag without adding an ATT prompt
-  the app has no real use for.
+- ⚠️ **NSUserTrackingUsageDescription note**: as of firebase-ios-sdk 12.17.0, the SPM `FirebaseAnalytics`
+  product unconditionally links `GoogleAppMeasurementIdentitySupport` (which references
+  `ATTrackingManager`) — there is no working SPM product in this SDK version that provides
+  `Analytics.logEvent()` without it (`FirebaseAnalyticsWithoutAdIdSupport` no longer exists;
+  `FirebaseAnalyticsCore` exists but is missing the actual `FIRAnalytics` symbols and fails to link).
+  Since the app never calls ATT and never will, the fix taken is: keep `FirebaseAnalytics` as-is, add
+  a `NSUserTrackingUsageDescription` string that's honest about *why* the key exists (Firebase's
+  presence, not actual tracking), and answer the App Store Connect Privacy Nutrition Label truthfully
+  as "Data Not Used to Track You." No ATT prompt is ever shown to users.
 
 **Next Steps (Future Releases):**
 - [ ] Custom user properties (free vs. premium, usage tier)
@@ -390,7 +396,7 @@ BreathingSettings.toggleBreathing(emotion)
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 0.20260820 | Aug 20, 2026 | Removed IDFA/ATT linkage (switched to FirebaseAnalyticsWithoutAdIdSupport) to resolve App Store Connect tracking flag; fixed Decimal→Double price bug; fixed cross-target Firebase compile errors |
+| 0.20260820 | Aug 20, 2026 | Verified full clean build (all 4 targets) for the first time; fixed cross-target Firebase link/compile errors by gating Firebase behind an explicit `FIREBASE_ENABLED` flag instead of `canImport`; fixed missing `import WatchKit` in 2 Watch App files; added honest `NSUserTrackingUsageDescription` to resolve App Store Connect's tracking flag (Firebase's SDK architecture requires shipping ATT-referencing code to get working Analytics — see Firebase Integration section); fixed Decimal→Double price bug |
 | 0.20260819 | Aug 19, 2026 | Firebase initialization, analytics logging, dead code cleanup |
 | 0.20260422 | Apr 22, 2026 | Purchase system, watch sync, breathing animations |
 | 0.20260415 | Apr 15, 2026 | Initial multi-platform release |

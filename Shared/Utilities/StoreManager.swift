@@ -2,7 +2,7 @@ import Foundation
 import StoreKit
 import SwiftData
 import Combine
-#if canImport(FirebaseAnalytics)
+#if FIREBASE_ENABLED
 import FirebaseAnalytics
 #endif
 
@@ -41,7 +41,7 @@ class StoreManager: ObservableObject {
             case .success(let verification):
                 // Verify the transaction is cryptographically signed by Apple
                 guard case .verified(let transaction) = verification else {
-                    #if canImport(FirebaseAnalytics)
+                    #if FIREBASE_ENABLED
                     Analytics.logEvent("purchase_verification_failed", parameters: ["pack": pack.id])
                     #endif
                     return
@@ -52,7 +52,7 @@ class StoreManager: ObservableObject {
                 do {
                     try context.save()
                 } catch {
-                    #if canImport(FirebaseAnalytics)
+                    #if FIREBASE_ENABLED
                     Analytics.logEvent("purchase_save_error", parameters: ["pack": pack.id])
                     #endif
                     print("❌ Failed to save purchase: \(error)")
@@ -70,7 +70,7 @@ class StoreManager: ObservableObject {
                 purchasedProductIDs.insert(product.id)
 
                 // Track successful purchase
-                #if canImport(FirebaseAnalytics)
+                #if FIREBASE_ENABLED
                 Analytics.logEvent("purchase_completed", parameters: [
                     "pack_id": pack.id,
                     "product_id": product.id,
@@ -81,12 +81,12 @@ class StoreManager: ObservableObject {
                 print("✅ StoreKit: Purchase successful for \(pack.id)")
 
             case .userCancelled:
-                #if canImport(FirebaseAnalytics)
+                #if FIREBASE_ENABLED
                 Analytics.logEvent("purchase_cancelled", parameters: ["pack": pack.id])
                 #endif
                 print("⚠️ StoreKit: Purchase cancelled")
             case .pending:
-                #if canImport(FirebaseAnalytics)
+                #if FIREBASE_ENABLED
                 Analytics.logEvent("purchase_pending", parameters: ["pack": pack.id])
                 #endif
                 print("⚠️ StoreKit: Purchase pending")
@@ -94,7 +94,7 @@ class StoreManager: ObservableObject {
                 break
             }
         } catch {
-            #if canImport(FirebaseAnalytics)
+            #if FIREBASE_ENABLED
             Analytics.logEvent("purchase_error", parameters: [
                 "pack": pack.id,
                 "error": error.localizedDescription
