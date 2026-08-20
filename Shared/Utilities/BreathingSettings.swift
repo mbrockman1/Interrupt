@@ -8,9 +8,6 @@
 
 import Foundation
 import WatchConnectivity
-#if FIREBASE_ENABLED
-import FirebaseAnalytics
-#endif
 
 class BreathingSettings {
     static let shared = BreathingSettings()
@@ -60,14 +57,6 @@ class BreathingSettings {
         }
 
         store?.set(list, forKey: "breath_emotions")
-
-        // Track in Firebase Analytics (only where Firebase is linked)
-        #if FIREBASE_ENABLED
-        Analytics.logEvent("breathing_toggled", parameters: [
-            "emotion": emotion,
-            "enabled": isEnabling
-        ])
-        #endif
 
         syncToWatch()
     }

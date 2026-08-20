@@ -1,6 +1,5 @@
 import SwiftUI
 import SwiftData
-import FirebaseAnalytics
 
 struct InterruptView: View {
     @Environment(\.modelContext) private var context
@@ -170,14 +169,7 @@ struct InterruptView: View {
             try context.save()
         } catch {
             print("❌ Failed to save interrupt log: \(error)")
-            Analytics.logEvent("log_save_error", parameters: ["category": categoryName])
         }
-
-        // Track in Firebase Analytics
-        Analytics.logEvent("interrupt_triggered", parameters: [
-            "emotion": categoryName,
-            "timestamp": Date().timeIntervalSince1970
-        ])
 
         let msg = MessageStore.shared.getMessage(for: categoryName, context: context)
         activeMessage = msg

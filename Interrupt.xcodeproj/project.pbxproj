@@ -16,7 +16,6 @@
 		4C44A45B2F6B852300CB9783 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A45A2F6B852300CB9783 /* SwiftUI.framework */; };
 		4C44A4662F6B852500CB9783 /* InterruptWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CBB5A4B3035C441006E65EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CBB5A4A3035C441006E65EF /* GoogleService-Info.plist */; };
-		4CBB5A4E3035C4D2006E65EF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBB5A4D3035C4D2006E65EF /* FirebaseAnalytics */; };
 		4CBB5A503035C4D2006E65EF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBB5A4F3035C4D2006E65EF /* FirebaseCrashlytics */; };
 /* End PBXBuildFile section */
 
@@ -233,7 +232,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CBB5A4E3035C4D2006E65EF /* FirebaseAnalytics in Frameworks */,
 				4CBB5A503035C4D2006E65EF /* FirebaseCrashlytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -341,7 +339,6 @@
 			);
 			name = Interrupt;
 			packageProductDependencies = (
-				4CBB5A4D3035C4D2006E65EF /* FirebaseAnalytics */,
 				4CBB5A4F3035C4D2006E65EF /* FirebaseCrashlytics */,
 			);
 			productName = Interrupt;
@@ -806,7 +803,6 @@
 				INFOPLIST_FILE = Interrupt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Interrupt - Thought Reset";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Interrupt does not track you across other companies' apps or websites. This permission exists only because Firebase Analytics, our crash-reporting and product-analytics tool, is present in the app; declining has no effect on your experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -827,7 +823,6 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) FIREBASE_ENABLED";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -852,7 +847,6 @@
 				INFOPLIST_FILE = Interrupt/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Interrupt - Thought Reset";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Interrupt does not track you across other companies' apps or websites. This permission exists only because Firebase Analytics, our crash-reporting and product-analytics tool, is present in the app; declining has no effect on your experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -873,7 +867,6 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) FIREBASE_ENABLED";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1036,11 +1029,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4CBB5A4D3035C4D2006E65EF /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4CBB5A4C3035C4D2006E65EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
 		4CBB5A4F3035C4D2006E65EF /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4CBB5A4C3035C4D2006E65EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

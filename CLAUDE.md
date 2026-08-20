@@ -228,21 +228,24 @@ do {
 
 ### Firebase Integration
 **Current State (v0.20260820):**
-- ✅ FirebaseCore + FirebaseAnalytics + FirebaseCrashlytics imported (main `Interrupt` iOS target only —
-  gated behind the `FIREBASE_ENABLED` Swift compilation flag, set only on that target, so shared files
-  compiled into the Watch App / Widget / Complications extensions compile cleanly without linking Firebase)
-- ✅ `FirebaseApp.configure()` in the iOS app `init()` (Watch App target does not link Firebase yet)
-- ✅ Analytics events logged on: launch, interrupt, purchase, breathing changes
-- ✅ Crashlytics enabled for automatic crash collection
-- ⚠️ **NSUserTrackingUsageDescription note**: as of firebase-ios-sdk 12.17.0, the SPM `FirebaseAnalytics`
-  product unconditionally links `GoogleAppMeasurementIdentitySupport` (which references
-  `ATTrackingManager`) — there is no working SPM product in this SDK version that provides
-  `Analytics.logEvent()` without it (`FirebaseAnalyticsWithoutAdIdSupport` no longer exists;
-  `FirebaseAnalyticsCore` exists but is missing the actual `FIRAnalytics` symbols and fails to link).
-  Since the app never calls ATT and never will, the fix taken is: keep `FirebaseAnalytics` as-is, add
-  a `NSUserTrackingUsageDescription` string that's honest about *why* the key exists (Firebase's
-  presence, not actual tracking), and answer the App Store Connect Privacy Nutrition Label truthfully
-  as "Data Not Used to Track You." No ATT prompt is ever shown to users.
+- ✅ FirebaseCore + FirebaseCrashlytics only, in the main `Interrupt` iOS target
+- ✅ `FirebaseApp.configure()` + Crashlytics collection enabled in the iOS app `init()`
+- ❌ **FirebaseAnalytics is intentionally NOT included.** As of firebase-ios-sdk 12.17.0, the SPM
+  `FirebaseAnalytics` product unconditionally links `GoogleAppMeasurementIdentitySupport`, which
+  references `ATTrackingManager` — there is no working SPM product in this SDK version that provides
+  `Analytics.logEvent()` without shipping that reference (`FirebaseAnalyticsWithoutAdIdSupport` no
+  longer exists; `FirebaseAnalyticsCore` exists but is missing the actual `FIRAnalytics` symbols and
+  fails to link). App Store Connect's automated privacy check does not accept "ship the ATT-capable
+  code but declare no tracking" — it requires either declaring Tracking=Yes (not true for this app) or
+  the binary to genuinely not reference ATT. Verified at the binary level (otool/nm/strings on the
+  actual built app) that with FirebaseAnalytics removed, zero `ATTrackingManager` references and zero
+  `AdSupport`/`AppTrackingTransparency` framework linkage remain anywhere in the shipped bundle, and
+  `NSUserTrackingUsageDescription` is absent from Info.plist. In App Store Connect, App Privacy should
+  be answered "Data Not Used to Track You."
+- **Tradeoff accepted**: no `interrupt_triggered` / `purchase_completed` / `breathing_toggled` custom
+  event analytics. Crash reporting (Crashlytics) still fully works. If product analytics are wanted
+  later, re-adding FirebaseAnalytics means re-accepting the ATT flag — there's no way around it in
+  this SDK line without pinning to a much older, unsupported firebase-ios-sdk version.
 
 **Next Steps (Future Releases):**
 - [ ] Custom user properties (free vs. premium, usage tier)
@@ -396,7 +399,7 @@ BreathingSettings.toggleBreathing(emotion)
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 0.20260820 | Aug 20, 2026 | Verified full clean build (all 4 targets) for the first time; fixed cross-target Firebase link/compile errors by gating Firebase behind an explicit `FIREBASE_ENABLED` flag instead of `canImport`; fixed missing `import WatchKit` in 2 Watch App files; added honest `NSUserTrackingUsageDescription` to resolve App Store Connect's tracking flag (Firebase's SDK architecture requires shipping ATT-referencing code to get working Analytics — see Firebase Integration section); fixed Decimal→Double price bug |
+| 0.20260820 | Aug 20, 2026 | Verified full clean build (all 4 targets) for the first time; fixed missing `import WatchKit` in 2 Watch App files (pre-existing bug); removed FirebaseAnalytics entirely (kept Crashlytics only) after confirming App Store Connect's tracking-permission check requires zero ATT-referencing code in the binary, not just an honest usage string — verified zero `ATTrackingManager` references at the binary level after removal; fixed Decimal→Double price bug |
 | 0.20260819 | Aug 19, 2026 | Firebase initialization, analytics logging, dead code cleanup |
 | 0.20260422 | Apr 22, 2026 | Purchase system, watch sync, breathing animations |
 | 0.20260415 | Apr 15, 2026 | Initial multi-platform release |
