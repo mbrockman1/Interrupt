@@ -22,7 +22,7 @@ struct StoicMessages {
             
             InterruptMessage(text: "If you are distressed by anything external, the pain is not due to the thing itself, but to your estimate of it; and this you have the power to revoke at any moment.\n— Marcus Aurelius", typeRaw: "Quote", categoryName: "Overthinking", packID: packID),
             
-            InterruptMessage(text: "He who fears death will never do anything worth of a man who is alive.\n— Seneca", typeRaw: "Quote", categoryName: "Negative Self-Talk", packID: packID),
+            InterruptMessage(text: "He who fears death will never do anything worth of a man who is alive.\n— Seneca", typeRaw: "Quote", categoryName: "Stress", packID: packID),
             
             InterruptMessage(text: "First say to yourself what you would be; and then do what you have to do.\n— Epictetus", typeRaw: "Quote", categoryName: "Imposter Syndrome", packID: packID),
             

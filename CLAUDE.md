@@ -1,7 +1,7 @@
 # Interrupt App - Architecture & Development Guide
 
-**Version:** 0.20260820  
-**Last Updated:** August 20, 2026  
+**Version:** 0.20260907  
+**Last Updated:** September 7, 2026  
 **Developer:** Michael Brockman
 
 ---
@@ -399,6 +399,7 @@ BreathingSettings.toggleBreathing(emotion)
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 0.20260907 | Sep 7, 2026 | Fixed the quote-pack purchase flow: auto-restore entitlements on launch (reinstalls/new devices no longer require a manual "Restore Purchases" tap); pack cards now show the real StoreKit price instead of a hardcoded "Free" label; fixed the sandbox `.storekit` price ($0.00 → $0.99); retagged an orphaned Stoic quote's category so all 7 premium quotes are reachable; purchase failures/pending states now surface an alert instead of failing silently; added a Ko-fi support link in Settings |
 | 0.20260820 | Aug 20, 2026 | Verified full clean build (all 4 targets) for the first time; fixed missing `import WatchKit` in 2 Watch App files (pre-existing bug); removed FirebaseAnalytics entirely (kept Crashlytics only) after confirming App Store Connect's tracking-permission check requires zero ATT-referencing code in the binary, not just an honest usage string — verified zero `ATTrackingManager` references at the binary level after removal; fixed Decimal→Double price bug |
 | 0.20260819 | Aug 19, 2026 | Firebase initialization, analytics logging, dead code cleanup |
 | 0.20260422 | Apr 22, 2026 | Purchase system, watch sync, breathing animations |
@@ -436,5 +437,5 @@ BreathingSettings.toggleBreathing(emotion)
 
 ---
 
-**Last Reviewed**: August 19, 2026  
-**Next Review Due**: November 2026
+**Last Reviewed**: September 7, 2026  
+**Next Review Due**: December 2026
