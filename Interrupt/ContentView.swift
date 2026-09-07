@@ -45,6 +45,9 @@ struct iOSContentView: View {
             try? await Task.sleep(for: .milliseconds(150))
             forceSyncAllData()
             SeedManager.seedDatabaseIfNeeded(context: context)
+
+            // Re-unlock any packs the user already owns (reinstall, new device, etc.)
+            await StoreManager.shared.updatePurchasedStatus(context: context)
         }
         // ONLY ONE onOpenURL IN THE APP
         .onOpenURL { url in

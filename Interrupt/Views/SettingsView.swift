@@ -149,6 +149,19 @@ struct SettingsView: View {
                     }
                 }
                 
+                // MARK: - Support Section
+                Section(footer: Text("Interrupt is built and maintained by a single independent developer. If it's helped you, a small donation goes a long way toward keeping it going.")) {
+                    Link(destination: URL(string: "https://ko-fi.com/dr_B")!) {
+                        HStack {
+                            Text("Support on Ko-fi")
+                                .foregroundStyle(.primary)
+                            Spacer()
+                            Image(systemName: "cup.and.saucer.fill")
+                                .foregroundStyle(Color.accentColor)
+                        }
+                    }
+                }
+
                 Section {
                     Button(action: { showingOnboarding = true }) {
                         HStack {

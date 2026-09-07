@@ -12,11 +12,12 @@ class StoreManager: ObservableObject {
 
     @Published var products: [Product] = []
     @Published var purchasedProductIDs: Set<String> = []
+    @Published var isPurchasing = false
+    @Published var purchaseErrorMessage: String?
 
     init() {
         Task {
             await fetchProducts()
-            await updatePurchasedStatus()
         }
     }
 
@@ -31,6 +32,9 @@ class StoreManager: ObservableObject {
 
     // Handles the actual purchase
     func purchase(_ product: Product, pack: ContentPack, context: ModelContext) async {
+        isPurchasing = true
+        defer { isPurchasing = false }
+
         do {
             let result = try await product.purchase()
 
@@ -38,6 +42,7 @@ class StoreManager: ObservableObject {
             case .success(let verification):
                 // Verify the transaction is cryptographically signed by Apple
                 guard case .verified(let transaction) = verification else {
+                    purchaseErrorMessage = "We couldn't verify this purchase with Apple. Please try again."
                     return
                 }
 
@@ -65,23 +70,16 @@ class StoreManager: ObservableObject {
             case .userCancelled:
                 print("⚠️ StoreKit: Purchase cancelled")
             case .pending:
-                print("⚠️ StoreKit: Purchase pending")
+                purchaseErrorMessage = "Your purchase is pending approval (e.g. Ask to Buy). You'll be notified once it's approved."
             @unknown default:
                 break
             }
         } catch {
-            print("❌ StoreKit: Purchase failed - \(error)")
+            purchaseErrorMessage = "Purchase failed: \(error.localizedDescription)"
         }
     }
 
     // Restores purchases if the user deletes the app or gets a new phone
-    func updatePurchasedStatus() async {
-        for await result in Transaction.currentEntitlements {
-            guard case .verified(let transaction) = result else { continue }
-            purchasedProductIDs.insert(transaction.productID)
-        }
-    }
-
     func updatePurchasedStatus(context: ModelContext) async {
         for await result in Transaction.currentEntitlements {
             guard case .verified(let transaction) = result else { continue }
@@ -106,19 +104,7 @@ class StoreManager: ObservableObject {
 
     // Call this function when the user taps "Restore Purchases"
     func restorePurchases(context: ModelContext) async {
-        // Ask Apple for all previous purchases
-        for await result in Transaction.currentEntitlements {
-            guard case .verified(let transaction) = result else { continue }
-
-            // Find the pack and unlock it
-            let packID = transaction.productID
-            let fetch = FetchDescriptor<ContentPack>(predicate: #Predicate { $0.id == packID })
-
-            if let pack = (try? context.fetch(fetch))?.first {
-                pack.isPurchased = true
-            }
-        }
-        try? context.save()
+        await updatePurchasedStatus(context: context)
         print("✅ Purchases restored from Apple!")
     }
 }

@@ -86,8 +86,6 @@ struct ContentLibraryView: View {
                                 .background(Color(uiColor: .secondarySystemGroupedBackground))
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                                 .padding(.horizontal)
-                                // NEW: Fetch Apple's price to display in the card if you want,
-                                // but our hardcoded $0.99 works fine for now!
                             }
                         }
                     }
@@ -108,7 +106,12 @@ struct ContentLibraryView: View {
 
 struct PackCardView: View {
     let pack: ContentPack
-    
+    @ObservedObject private var store = StoreManager.shared
+
+    private var product: Product? {
+        store.products.first(where: { $0.id == pack.id })
+    }
+
     var body: some View {
         HStack(spacing: 16) {
             ZStack {
@@ -137,15 +140,17 @@ struct PackCardView: View {
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .foregroundStyle(.tertiary)
-            } else {
-                // We show the $0.99 tag here for UI polish!
-                Text("Free")
+            } else if let product {
+                Text(product.displayPrice)
                     .font(.subheadline.bold())
                     .foregroundStyle(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 6)
                     .background(Color.accentColor)
                     .clipShape(Capsule())
+                    .padding(.trailing, 16)
+            } else {
+                ProgressView()
                     .padding(.trailing, 16)
             }
         }
@@ -171,7 +176,8 @@ struct PackDetailView: View {
     let triggers: [EmotionTrigger]
     @Environment(\.modelContext) private var context
     @Query private var allMessages: [InterruptMessage]
-    
+    @ObservedObject private var store = StoreManager.shared
+
     @State private var showingAddSheet = false
     @State private var messageToEdit: InterruptMessage?
     
@@ -195,24 +201,38 @@ struct PackDetailView: View {
                         
                         Button(action: {
                             Task {
-                                // 1. Find the Apple Product matching this Pack
-                                if let product = StoreManager.shared.products.first(where: { $0.id == pack.id }) {
+                                // 1. Find the Apple Product matching this Pack (retry the fetch if it hasn't loaded yet)
+                                var product = store.products.first(where: { $0.id == pack.id })
+                                if product == nil {
+                                    await store.fetchProducts()
+                                    product = store.products.first(where: { $0.id == pack.id })
+                                }
+
+                                if let product {
                                     // 2. Trigger the Apple Pay Sheet!
-                                    await StoreManager.shared.purchase(product, pack: pack, context: context)
+                                    await store.purchase(product, pack: pack, context: context)
                                 } else {
-                                    print("Product not loaded from StoreKit yet.")
+                                    store.purchaseErrorMessage = "Couldn't reach the App Store. Check your connection and try again."
                                 }
                             }
                         }) {
-                            Text("Unlock Pack")
-                                .font(.headline)
-                                .foregroundStyle(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                                .background(Color.accentColor.gradient)
-                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            Group {
+                                if store.isPurchasing {
+                                    ProgressView()
+                                        .tint(.white)
+                                } else {
+                                    Text("Unlock Pack")
+                                        .font(.headline)
+                                }
+                            }
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .background(Color.accentColor.gradient)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
                         .buttonStyle(.plain)
+                        .disabled(store.isPurchasing)
                         .padding(.top, 8)
                     }
                     .padding(.vertical, 8)
@@ -270,6 +290,14 @@ struct PackDetailView: View {
             }
         }
         .navigationTitle(pack.title)
+        .alert("Purchase Issue", isPresented: Binding(
+            get: { store.purchaseErrorMessage != nil },
+            set: { isPresented in if !isPresented { store.purchaseErrorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(store.purchaseErrorMessage ?? "")
+        }
         .toolbar {
             if pack.id == "custom" {
                 ToolbarItem(placement: .primaryAction) {
