@@ -46,8 +46,10 @@ struct SeedManager {
         }
 
         // Locked packs must never serve quotes, including ones seeded by older versions.
-        for message in existingMessages where message.isActive {
-            if let pack = existingPacks.first(where: { $0.id == message.packID }), !pack.isPurchased {
+        let allPacks = (try? context.fetch(FetchDescriptor<ContentPack>())) ?? []
+        let allMessages = (try? context.fetch(FetchDescriptor<InterruptMessage>())) ?? []
+        for message in allMessages where message.isActive {
+            if let pack = allPacks.first(where: { $0.id == message.packID }), !pack.isPurchased {
                 message.isActive = false
             }
         }
