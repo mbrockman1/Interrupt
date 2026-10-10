@@ -140,6 +140,15 @@ struct PackCardView: View {
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .foregroundStyle(.tertiary)
+            } else if !pack.isPremium {
+                Text("Free")
+                    .font(.subheadline.bold())
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 6)
+                    .background(Color.accentColor)
+                    .clipShape(Capsule())
+                    .padding(.trailing, 16)
             } else if let product {
                 Text(product.displayPrice)
                     .font(.subheadline.bold())
@@ -194,11 +203,28 @@ struct PackDetailView: View {
                             .font(.headline)
                             .foregroundStyle(Color.accentColor)
                         
-                        Text("You can read the contents of this pack for free. To use these quotes in your active Interrupts, unlock the pack.")
+                        Text(pack.isPremium
+                             ? "You can read the contents of this pack for free. To use these quotes in your active Interrupts, unlock the pack."
+                             : "This pack is free. Add it to your library to use these quotes in your active Interrupts.")
                             .font(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundStyle(.secondary)
                         
+                        if !pack.isPremium {
+                            Button(action: {
+                                store.unlockPack(pack, context: context)
+                            }) {
+                                Text("Add to Library")
+                                    .font(.headline)
+                                    .foregroundStyle(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 12)
+                                    .background(Color.accentColor.gradient)
+                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            .buttonStyle(.plain)
+                            .padding(.top, 8)
+                        } else {
                         Button(action: {
                             Task {
                                 // 1. Find the Apple Product matching this Pack (retry the fetch if it hasn't loaded yet)
@@ -234,6 +260,7 @@ struct PackDetailView: View {
                         .buttonStyle(.plain)
                         .disabled(store.isPurchasing)
                         .padding(.top, 8)
+                        }
                     }
                     .padding(.vertical, 8)
                 }

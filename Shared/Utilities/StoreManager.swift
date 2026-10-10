@@ -8,7 +8,7 @@ class StoreManager: ObservableObject {
     static let shared = StoreManager()
 
     // The Product IDs matching your database and StoreKit file
-    let productIDs = ["pack.stoic"]
+    let productIDs = ["pack.stoic", "pack.womenscientists"]
 
     @Published var products: [Product] = []
     @Published var purchasedProductIDs: Set<String> = []
@@ -46,18 +46,7 @@ class StoreManager: ObservableObject {
                     return
                 }
 
-                // UNLOCK IN THE DATABASE!
-                pack.isPurchased = true
-                do {
-                    try context.save()
-                } catch {
-                    print("❌ Failed to save purchase: \(error)")
-                }
-
-                // Sync the unlock to the Apple Watch
-                if let allMessages = try? context.fetch(FetchDescriptor<InterruptMessage>()) {
-                    WatchSyncManager.shared.syncLibraryToWatch(messages: allMessages)
-                }
+                unlockPack(pack, context: context)
 
                 // Tell Apple we delivered the content
                 await transaction.finish()
@@ -88,15 +77,29 @@ class StoreManager: ObservableObject {
             let productID = transaction.productID
             let fetch = FetchDescriptor<ContentPack>(predicate: #Predicate { $0.id == productID })
 
-            if let pack = (try? context.fetch(fetch))?.first {
-                pack.isPurchased = true
+            if let pack = (try? context.fetch(fetch))?.first, !pack.isPurchased {
+                unlockPack(pack, context: context)
             }
         }
+    }
 
-        // 2. Save the database
-        try? context.save()
+    // Marks a pack as owned, turns its quotes on, and pushes the change to the Watch.
+    // Used for paid purchases, restores, and free pack installs.
+    func unlockPack(_ pack: ContentPack, context: ModelContext) {
+        pack.isPurchased = true
 
-        // 3. Tell the Apple Watch to unlock the quotes too!
+        let packID = pack.id
+        let fetch = FetchDescriptor<InterruptMessage>(predicate: #Predicate { $0.packID == packID })
+        for message in (try? context.fetch(fetch)) ?? [] {
+            message.isActive = true
+        }
+
+        do {
+            try context.save()
+        } catch {
+            print("❌ Failed to save pack unlock: \(error)")
+        }
+
         if let allMessages = try? context.fetch(FetchDescriptor<InterruptMessage>()) {
             WatchSyncManager.shared.syncLibraryToWatch(messages: allMessages)
         }
