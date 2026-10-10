@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D606B318BC3862482BFB3C0 /* SeedManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F275C34DDEE574793F67FEC /* SeedManagerTests.swift */; };
 		4C046FDD2F6DF5690001ABB5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A4582F6B852300CB9783 /* WidgetKit.framework */; };
 		4C046FDE2F6DF5690001ABB5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A45A2F6B852300CB9783 /* SwiftUI.framework */; };
 		4C046FE92F6DF56B0001ABB5 /* ComplicationsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -17,6 +18,10 @@
 		4C44A4662F6B852500CB9783 /* InterruptWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		4CBB5A4B3035C441006E65EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CBB5A4A3035C441006E65EF /* GoogleService-Info.plist */; };
 		4CBB5A503035C4D2006E65EF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBB5A4F3035C4D2006E65EF /* FirebaseCrashlytics */; };
+		523DF5F2D48BA714D7464A05 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C52C11294D8D0ABFB2F736 /* Foundation.framework */; };
+		B2BD97FD7CA055EA059AC7BF /* PackContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D8C0EA3AE6509B8A07BC12 /* PackContentTests.swift */; };
+		D17ACAB00E2872C0C8ECCB65 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0CD891D0F59BB2AC76839 /* TestSupport.swift */; };
+		F167DA33580680007D89EBE1 /* UnlockAndSelectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC4D99ECB972B6F8E3C3DB6 /* UnlockAndSelectionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +52,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4C44A4552F6B852300CB9783;
 			remoteInfo = InterruptWidgetExtension;
+		};
+		F0D303977611CB5C6DE1C162 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C44A4052F6B819D00CB9783 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4C44A40C2F6B819E00CB9783;
+			remoteInfo = Interrupt;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -87,6 +99,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		06C52C11294D8D0ABFB2F736 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		2F275C34DDEE574793F67FEC /* SeedManagerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SeedManagerTests.swift; sourceTree = "<group>"; };
+		39D8C0EA3AE6509B8A07BC12 /* PackContentTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PackContentTests.swift; sourceTree = "<group>"; };
 		4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ComplicationsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C0FC53C2F8D8A560005B62F /* InterruptWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = InterruptWidgetExtension.entitlements; sourceTree = "<group>"; };
 		4C0FC53D2F8D8A7D0005B62F /* ComplicationsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ComplicationsExtension.entitlements; sourceTree = "<group>"; };
@@ -97,6 +112,9 @@
 		4C44A4582F6B852300CB9783 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = /System/Library/Frameworks/WidgetKit.framework; sourceTree = "<absolute>"; };
 		4C44A45A2F6B852300CB9783 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 		4CBB5A4A3035C441006E65EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7062434B37F695DB2D307185 /* InterruptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterruptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAC4D99ECB972B6F8E3C3DB6 /* UnlockAndSelectionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UnlockAndSelectionTests.swift; sourceTree = "<group>"; };
+		F3C0CD891D0F59BB2AC76839 /* TestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -195,6 +213,8 @@
 		};
 		4C44A41E2F6B81A100CB9783 /* Interrupt Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+			);
 			path = "Interrupt Watch App";
 			sourceTree = "<group>";
 		};
@@ -219,6 +239,14 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0344F0B75264EA2D092C813A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				523DF5F2D48BA714D7464A05 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C046FD92F6DF5690001ABB5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -255,6 +283,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42C6817FFC73649E4C42C1B1 /* InterruptTests */ = {
+			isa = PBXGroup;
+			children = (
+				39D8C0EA3AE6509B8A07BC12 /* PackContentTests.swift */,
+				2F275C34DDEE574793F67FEC /* SeedManagerTests.swift */,
+				F3C0CD891D0F59BB2AC76839 /* TestSupport.swift */,
+				AAC4D99ECB972B6F8E3C3DB6 /* UnlockAndSelectionTests.swift */,
+			);
+			name = InterruptTests;
+			path = InterruptTests;
+			sourceTree = "<group>";
+		};
 		4C44A4042F6B819D00CB9783 = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +309,7 @@
 				4C44A4572F6B852300CB9783 /* Frameworks */,
 				4C44A40E2F6B819E00CB9783 /* Products */,
 				4CBB5A4A3035C441006E65EF /* GoogleService-Info.plist */,
+				42C6817FFC73649E4C42C1B1 /* InterruptTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -279,6 +320,7 @@
 				4C44A41A2F6B81A100CB9783 /* Interrupt Watch App.app */,
 				4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */,
 				4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */,
+				7062434B37F695DB2D307185 /* InterruptTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,8 +330,17 @@
 			children = (
 				4C44A4582F6B852300CB9783 /* WidgetKit.framework */,
 				4C44A45A2F6B852300CB9783 /* SwiftUI.framework */,
+				AD1FB2935CAB1D6423D1039E /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AD1FB2935CAB1D6423D1039E /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				06C52C11294D8D0ABFB2F736 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -311,8 +362,6 @@
 				4C046FDF2F6DF5690001ABB5 /* Complications */,
 			);
 			name = ComplicationsExtension;
-			packageProductDependencies = (
-			);
 			productName = ComplicationsExtension;
 			productReference = 4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -364,8 +413,6 @@
 				4C44A41E2F6B81A100CB9783 /* Interrupt Watch App */,
 			);
 			name = "Interrupt Watch App";
-			packageProductDependencies = (
-			);
 			productName = "Interrupt Watch App";
 			productReference = 4C44A41A2F6B81A100CB9783 /* Interrupt Watch App.app */;
 			productType = "com.apple.product-type.application";
@@ -386,11 +433,27 @@
 				4C44A45C2F6B852300CB9783 /* InterruptWidget */,
 			);
 			name = InterruptWidgetExtension;
-			packageProductDependencies = (
-			);
 			productName = InterruptWidgetExtension;
 			productReference = 4C44A4562F6B852300CB9783 /* InterruptWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		BEE80DF64A3345C66D68C94E /* InterruptTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A08537045A9DE79856153253 /* Build configuration list for PBXNativeTarget "InterruptTests" */;
+			buildPhases = (
+				163976741E23B2DDE2CFF70E /* Sources */,
+				0344F0B75264EA2D092C813A /* Frameworks */,
+				21EEB33D67F2E910608185DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				87CC36ABAC0D1EECED2B7800 /* PBXTargetDependency */,
+			);
+			name = InterruptTests;
+			productName = InterruptTests;
+			productReference = 7062434B37F695DB2D307185 /* InterruptTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -437,11 +500,19 @@
 				4C44A4192F6B81A100CB9783 /* Interrupt Watch App */,
 				4C44A4552F6B852300CB9783 /* InterruptWidgetExtension */,
 				4C046FDB2F6DF5690001ABB5 /* ComplicationsExtension */,
+				BEE80DF64A3345C66D68C94E /* InterruptTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		21EEB33D67F2E910608185DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C046FDA2F6DF5690001ABB5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -475,6 +546,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		163976741E23B2DDE2CFF70E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B2BD97FD7CA055EA059AC7BF /* PackContentTests.swift in Sources */,
+				1D606B318BC3862482BFB3C0 /* SeedManagerTests.swift in Sources */,
+				D17ACAB00E2872C0C8ECCB65 /* TestSupport.swift in Sources */,
+				F167DA33580680007D89EBE1 /* UnlockAndSelectionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C046FD82F6DF5690001ABB5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -525,9 +607,34 @@
 			target = 4C44A4552F6B852300CB9783 /* InterruptWidgetExtension */;
 			targetProxy = 4C44A4642F6B852500CB9783 /* PBXContainerItemProxy */;
 		};
+		87CC36ABAC0D1EECED2B7800 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Interrupt;
+			target = 4C44A40C2F6B819E00CB9783 /* Interrupt */;
+			targetProxy = F0D303977611CB5C6DE1C162 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		28A40536C40005488639D709 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = L8A3PF8RFV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.InterruptTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Interrupt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Interrupt";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		4C046FEB2F6DF56B0001ABB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -547,7 +654,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -581,7 +688,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -736,7 +843,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -771,7 +878,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -813,7 +920,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -857,7 +964,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -905,7 +1012,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -950,7 +1057,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 0.20261010;
+				MARKETING_VERSION = 1.20261010;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -966,6 +1073,24 @@
 				XROS_DEPLOYMENT_TARGET = 26.2;
 			};
 			name = Release;
+		};
+		935A5B7D90CFD6D3145E23C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = L8A3PF8RFV;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.InterruptTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Interrupt.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Interrupt";
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1011,6 +1136,15 @@
 			buildConfigurations = (
 				4C44A4692F6B852500CB9783 /* Debug */,
 				4C44A46A2F6B852500CB9783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A08537045A9DE79856153253 /* Build configuration list for PBXNativeTarget "InterruptTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28A40536C40005488639D709 /* Release */,
+				935A5B7D90CFD6D3145E23C6 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
