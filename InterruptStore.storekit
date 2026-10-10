@@ -1,54 +1,63 @@
 {
-  "appPolicies" : {
-    "eula" : "",
-    "policies" : [
+  "appPolicies": {
+    "eula": "",
+    "policies": [
       {
-        "locale" : "en_US",
-        "policyText" : "",
-        "policyURL" : ""
+        "locale": "en_US",
+        "policyText": "",
+        "policyURL": ""
       }
     ]
   },
-  "identifier" : "222A4242",
-  "nonRenewingSubscriptions" : [
-
-  ],
-  "products" : [
+  "identifier": "222A4242",
+  "nonRenewingSubscriptions": [],
+  "products": [
     {
-      "displayPrice" : "0.99",
-      "familyShareable" : false,
-      "internalID" : "1B4D1946",
-      "localizations" : [
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "1B4D1946",
+      "localizations": [
         {
-          "description" : "",
-          "displayName" : "",
-          "locale" : "en_US"
+          "description": "",
+          "displayName": "",
+          "locale": "en_US"
         }
       ],
-      "productID" : "pack.stoic",
-      "referenceName" : "Stoic Pack",
-      "type" : "NonConsumable"
+      "productID": "pack.stoic",
+      "referenceName": "Stoic Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "7C2E5A10",
+      "localizations": [
+        {
+          "description": "Wisdom from pioneering female scientists.",
+          "displayName": "Women in Science",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.womenscientists",
+      "referenceName": "Women in Science Pack",
+      "type": "NonConsumable"
     }
   ],
-  "settings" : {
-    "_askToBuyEnabled" : false,
-    "_billingGracePeriodEnabled" : false,
-    "_billingIssuesEnabled" : false,
-    "_disableDialogs" : false,
-    "_failTransactionsEnabled" : false,
-    "_locale" : "en_US",
-    "_renewalBillingIssuesEnabled" : false,
-    "_storefront" : "USA",
-    "_storeKitErrors" : [
-
-    ],
-    "_timeRate" : 0
+  "settings": {
+    "_askToBuyEnabled": false,
+    "_billingGracePeriodEnabled": false,
+    "_billingIssuesEnabled": false,
+    "_disableDialogs": false,
+    "_failTransactionsEnabled": false,
+    "_locale": "en_US",
+    "_renewalBillingIssuesEnabled": false,
+    "_storefront": "USA",
+    "_storeKitErrors": [],
+    "_timeRate": 0
   },
-  "subscriptionGroups" : [
-
-  ],
-  "version" : {
-    "major" : 5,
-    "minor" : 0
+  "subscriptionGroups": [],
+  "version": {
+    "major": 5,
+    "minor": 0
   }
 }
