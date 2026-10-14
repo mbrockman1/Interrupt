@@ -19,8 +19,9 @@ final class SeedManagerTests: XCTestCase {
     func testFreshSeedCreatesAllPacks() throws {
         SeedManager.seedDatabaseIfNeeded(context: context)
         let ids = Set(try context.fetch(FetchDescriptor<ContentPack>()).map(\.id))
-        XCTAssertEqual(ids, ["custom", "received", "core", "pack.imposter", "pack.stoic",
-                             "pack.sciencefacts", "pack.scientists", "pack.womenscientists"])
+        let base: Set<String> = ["custom", "received", "core", "pack.imposter", "pack.stoic",
+                                 "pack.sciencefacts", "pack.scientists", "pack.womenscientists"]
+        XCTAssertEqual(ids, base.union(InspirationPacks.all.map(\.id)))
     }
 
     func testPackOwnershipAndPremiumFlags() throws {

@@ -8,7 +8,7 @@ class StoreManager: ObservableObject {
     static let shared = StoreManager()
 
     // The Product IDs matching your database and StoreKit file
-    let productIDs = ["pack.stoic", "pack.womenscientists"]
+    let productIDs = ["pack.stoic", "pack.womenscientists"] + InspirationPacks.all.map(\.id)
 
     @Published var products: [Product] = []
     @Published var purchasedProductIDs: Set<String> = []

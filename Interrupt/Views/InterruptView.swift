@@ -150,9 +150,12 @@ struct InterruptView: View {
                 
                 // 2. Disable them and move them to 'Unlinked' instead of deleting them
                 for message in messagesToUnlink {
-                    message.categoryName = "Unlinked"
+                    message.categoryName = InterruptMessage.unlinkedCategory
                     message.isActive = false
                 }
+
+                // Packs that serve this emotion by assignment stop pointing at it.
+                PackAssignment.removeEmotion(nameToDelete, from: allMessages)
             }
             
             // 3. Delete the trigger itself

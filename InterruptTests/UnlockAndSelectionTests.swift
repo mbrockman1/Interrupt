@@ -47,7 +47,8 @@ final class UnlockAndSelectionTests: XCTestCase {
     }
 
     func testLockedPacksAreNeverServedByMessageStore() throws {
-        let locked: Set<String> = ["pack.stoic", "pack.sciencefacts", "pack.scientists", "pack.womenscientists"]
+        let base: Set<String> = ["pack.stoic", "pack.sciencefacts", "pack.scientists", "pack.womenscientists"]
+        let locked = base.union(InspirationPacks.all.map(\.id))
         for category in ["Stress", "Overthinking", "Imposter Syndrome"] {
             for _ in 0..<200 {
                 let served = MessageStore.shared.getMessage(for: category, context: context)
@@ -56,16 +57,15 @@ final class UnlockAndSelectionTests: XCTestCase {
         }
     }
 
-    func testInstalledPackBecomesServable() throws {
+    func testInstalledPackBecomesServableOnceAssigned() throws {
         let pack = try TestSupport.packs(in: context)["pack.sciencefacts"]!
         StoreManager.shared.unlockPack(pack, context: context)
+        PackAssignment.setAssignedEmotions(["Stress"], packID: pack.id, context: context)
         let factTexts = Set(try TestSupport.messages(packID: "pack.sciencefacts", in: context).map(\.text))
 
         var servedFact = false
         for _ in 0..<2000 where !servedFact {
-            for category in ["Stress", "Overthinking", "Imposter Syndrome"] {
-                if factTexts.contains(MessageStore.shared.getMessage(for: category, context: context).text) { servedFact = true }
-            }
+            servedFact = factTexts.contains(MessageStore.shared.getMessage(for: "Stress", context: context).text)
         }
         XCTAssertTrue(servedFact)
     }

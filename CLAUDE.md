@@ -1,7 +1,7 @@
 # Interrupt App - Architecture & Development Guide
 
-**Version:** 1.20261010  
-**Last Updated:** October 10, 2026  
+**Version:** 1.20261014  
+**Last Updated:** October 14, 2026  
 **Developer:** Michael Brockman
 
 ---
@@ -177,6 +177,22 @@ Controlled via `currentPhase` state machine in `MessageCardView.swift`.
 
 Packs are gated by `ContentPack.isPurchased` flag.
 
+**Emotion assignment (v1.20261014):** Apart from `core`, `custom`, `received`, and `pack.imposter`
+(see `ContentPack.fixedCategoryPackIDs`), packs carry **no emotions of their own**. Their quotes are
+seeded with `categoryName == "Unlinked"`. After a pack is purchased/installed, the user ticks which of
+*their* emotions (including custom ones) it should serve in the pack detail screen. That list is stored on
+every message in the pack as `InterruptMessage.assignedEmotionsRaw` (synced to the watch like any other
+field), and `MessageStore` matches `categoryName == emotion || assignedEmotions.contains(emotion)`.
+A quote served through an assignment is returned as an unsaved copy tagged with the tapped emotion so
+breathing settings and sharing key off the right emotion. An owned pack with no emotions ticked serves
+nothing. `SeedManager.migrateLegacyEmotionTags` folds old per-message tags into a pack-level assignment.
+`PackAssignment` (in `MessageStore.swift`) is the read/write API.
+
+**Paid catalog packs** live in `InspirationPacks.all` (`StoicMessages.swift`): `pack.earnedit`,
+`pack.selfcompassion`, `pack.courage`, `pack.bounceback`, `pack.grounding`, `pack.progress`,
+`pack.comparison`, `pack.voices`. Seeding, `StoreManager.productIDs`, and tests all read that list, so a
+new pack is one `CatalogPack(...)` entry plus a product in `InterruptStore.storekit` and App Store Connect.
+
 ### 6. **Error Logging Pattern**
 Always log both locally and to Firebase:
 
@@ -256,6 +272,8 @@ do {
 ### StoreKit 2 Setup
 Products defined in `InterruptStore.storekit`:
 - `pack.stoic` - Premium Stoic philosophy quotes ($0.99)
+- `pack.womenscientists` - Women in Science ($0.99)
+- 8 inspiration packs (`pack.earnedit`, `pack.selfcompassion`, `pack.courage`, `pack.bounceback`, `pack.grounding`, `pack.progress`, `pack.comparison`, `pack.voices`), $0.99 each. Every product ID must also exist in App Store Connect.
 
 Purchase flow:
 1. User taps "Unlock Pack"
@@ -409,6 +427,7 @@ xcodebuild test -project Interrupt.xcodeproj -scheme InterruptTests -destination
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.20261014 | Oct 14, 2026 | Added 8 paid inspiration packs ($0.99 each); quote packs no longer ship with emotions: users assign which emotions each pack serves (list in the pack screen), with migration of old per-quote tags; `assignedEmotionsRaw` synced to the watch |
 | 1.20261010 | Oct 10, 2026 | Added three quote packs: Science Facts and Words of Scientists (free, installed via "Add to Library") and Women in Science (paid, StoreKit product `pack.womenscientists`, must be created in App Store Connect); seeding is now per-pack so new packs reach existing installs; quotes from locked packs are now inactive so they no longer appear before unlock/install |
 | 0.20260907 | Sep 7, 2026 | Fixed the quote-pack purchase flow: auto-restore entitlements on launch (reinstalls/new devices no longer require a manual "Restore Purchases" tap); pack cards now show the real StoreKit price instead of a hardcoded "Free" label; fixed the sandbox `.storekit` price ($0.00 → $0.99); retagged an orphaned Stoic quote's category so all 7 premium quotes are reachable; purchase failures/pending states now surface an alert instead of failing silently; added a Ko-fi support link in Settings |
 | 0.20260820 | Aug 20, 2026 | Verified full clean build (all 4 targets) for the first time; fixed missing `import WatchKit` in 2 Watch App files (pre-existing bug); removed FirebaseAnalytics entirely (kept Crashlytics only) after confirming App Store Connect's tracking-permission check requires zero ATT-referencing code in the binary, not just an honest usage string — verified zero `ATTrackingManager` references at the binary level after removal; fixed Decimal→Double price bug |

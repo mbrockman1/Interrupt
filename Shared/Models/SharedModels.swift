@@ -57,6 +57,12 @@ final class ContentPack {
         self.isPurchased = isPurchased
         self.isPremium = isPremium
     }
+
+    // Packs whose quotes are tied to a fixed emotion (or chosen per-note by the user).
+    // Every other pack ships with no emotions at all; the user picks which emotions it serves.
+    static let fixedCategoryPackIDs: Set<String> = ["custom", "received", "core", "pack.imposter"]
+
+    var usesEmotionAssignment: Bool { !Self.fixedCategoryPackIDs.contains(id) }
 }
 
 @Model
@@ -70,15 +76,34 @@ final class InterruptMessage {
     // NEW: Associates this message with a specific pack
     var packID: String = "core"
 
-    init(id: UUID = UUID(), text: String, typeRaw: String, categoryName: String, packID: String = "core", isActive: Bool = true) {
+    // Emotions the user assigned to this message's pack, stored as one string so it migrates and
+    // syncs like any other attribute. Quotes in assignable packs have categoryName "Unlinked" and
+    // are served through this list instead.
+    var assignedEmotionsRaw: String = ""
+
+    static let unlinkedCategory = "Unlinked"
+    private static let emotionSeparator = "\u{1F}"
+
+    init(id: UUID = UUID(), text: String, typeRaw: String, categoryName: String, packID: String = "core", isActive: Bool = true, assignedEmotions: [String] = []) {
         self.id = id
         self.text = text
         self.typeRaw = typeRaw
         self.categoryName = categoryName
         self.packID = packID
         self.isActive = isActive
+        self.assignedEmotionsRaw = assignedEmotions.joined(separator: Self.emotionSeparator)
     }
-    
+
+    var assignedEmotions: [String] {
+        get { assignedEmotionsRaw.isEmpty ? [] : assignedEmotionsRaw.components(separatedBy: Self.emotionSeparator) }
+        set { assignedEmotionsRaw = newValue.joined(separator: Self.emotionSeparator) }
+    }
+
+    // True if this message should be offered when the user interrupts `emotion`.
+    func matches(emotion: String) -> Bool {
+        categoryName == emotion || assignedEmotions.contains(emotion)
+    }
+
     func toDictionary() -> [String: Any] {
         return [
             "id": id.uuidString,
@@ -86,7 +111,8 @@ final class InterruptMessage {
             "typeRaw": typeRaw,
             "categoryName": categoryName,
             "packID": packID,
-            "isActive": isActive
+            "isActive": isActive,
+            "assignedEmotions": assignedEmotionsRaw
         ]
     }
     
@@ -100,7 +126,10 @@ final class InterruptMessage {
               let packID = dict["packID"] as? String,
               let isActive = dict["isActive"] as? Bool else { return nil }
         
-        return InterruptMessage(id: id, text: text, typeRaw: typeRaw, categoryName: categoryName, packID: packID, isActive: isActive)
+        let message = InterruptMessage(id: id, text: text, typeRaw: typeRaw, categoryName: categoryName, packID: packID, isActive: isActive)
+        // Older phones don't send this key; treat it as "no assignments".
+        message.assignedEmotionsRaw = dict["assignedEmotions"] as? String ?? ""
+        return message
     }
 }
 
