@@ -267,7 +267,84 @@ struct PackDetailView: View {
             }
             
             let packMessages = allMessages.filter { $0.packID == pack.id }
-            let unlinkedMessages = packMessages.filter { $0.categoryName == "Unlinked" }
+
+            if pack.usesEmotionAssignment {
+                // Packs carry no emotions of their own. The user decides which ones they serve.
+                if !isPreviewMode {
+                    emotionAssignmentSection(packMessages: packMessages)
+                }
+
+                Section(header: Text(isPreviewMode ? "Preview" : "Quotes")) {
+                    ForEach(packMessages) { msg in
+                        PackMessageRow(msg: msg, isPreviewMode: isPreviewMode)
+                    }
+                }
+            } else {
+                legacySections(packMessages: packMessages)
+            }
+        }
+        .navigationTitle(pack.title)
+        .alert("Purchase Issue", isPresented: Binding(
+            get: { store.purchaseErrorMessage != nil },
+            set: { isPresented in if !isPresented { store.purchaseErrorMessage = nil } }
+        )) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(store.purchaseErrorMessage ?? "")
+        }
+        .toolbar {
+            if pack.id == "custom" {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: { showingAddSheet = true }) {
+                        Image(systemName: "plus.circle.fill").font(.title2)
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $showingAddSheet) {
+            AddMessageView(triggers: triggers.filter { !$0.isHidden })
+        }
+        .sheet(item: $messageToEdit) { msg in
+            EditMessageView(message: msg, triggers: triggers.filter { !$0.isHidden })
+        }
+    }
+    
+    // Checklist of the user's emotions; ticking one makes this pack's quotes appear for it.
+    @ViewBuilder
+    private func emotionAssignmentSection(packMessages: [InterruptMessage]) -> some View {
+        let visibleTriggers = triggers.filter { !$0.isHidden }
+        let assigned = PackAssignment.assignedEmotions(packID: pack.id, in: packMessages)
+
+        Section(
+            header: Text("Show this pack for"),
+            footer: Text(assigned.isEmpty
+                         ? "Choose at least one emotion. Until you do, this pack's quotes won't appear."
+                         : "These quotes appear when you interrupt a checked emotion.")
+        ) {
+            ForEach(visibleTriggers) { trigger in
+                Button {
+                    var updated = assigned
+                    if updated.contains(trigger.name) { updated.remove(trigger.name) } else { updated.insert(trigger.name) }
+                    PackAssignment.setAssignedEmotions(updated, packID: pack.id, context: context)
+                } label: {
+                    HStack {
+                        Text(trigger.name).foregroundStyle(.primary)
+                        Spacer()
+                        if assigned.contains(trigger.name) {
+                            Image(systemName: "checkmark").foregroundStyle(Color.accentColor)
+                        }
+                    }
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    // Custom, Received, and built-in packs still show quotes grouped under their emotion.
+    @ViewBuilder
+    private func legacySections(packMessages: [InterruptMessage]) -> some View {
+        let unlinkedMessages = packMessages.filter { $0.categoryName == InterruptMessage.unlinkedCategory }
             
             ForEach(triggers) { trigger in
                 let triggerMessages = packMessages.filter { $0.categoryName == trigger.name }
@@ -315,33 +392,8 @@ struct PackDetailView: View {
                     .deleteDisabled(pack.id != "custom" && pack.id != "received")
                 }
             }
-        }
-        .navigationTitle(pack.title)
-        .alert("Purchase Issue", isPresented: Binding(
-            get: { store.purchaseErrorMessage != nil },
-            set: { isPresented in if !isPresented { store.purchaseErrorMessage = nil } }
-        )) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(store.purchaseErrorMessage ?? "")
-        }
-        .toolbar {
-            if pack.id == "custom" {
-                ToolbarItem(placement: .primaryAction) {
-                    Button(action: { showingAddSheet = true }) {
-                        Image(systemName: "plus.circle.fill").font(.title2)
-                    }
-                }
-            }
-        }
-        .sheet(isPresented: $showingAddSheet) {
-            AddMessageView(triggers: triggers.filter { !$0.isHidden })
-        }
-        .sheet(item: $messageToEdit) { msg in
-            EditMessageView(message: msg, triggers: triggers.filter { !$0.isHidden })
-        }
     }
-    
+
     private func syncLibraryToWatch() {
         if let messages = try? context.fetch(FetchDescriptor<InterruptMessage>()) {
             WatchSyncManager.shared.syncLibraryToWatch(messages: messages)

@@ -41,6 +41,126 @@
       "productID": "pack.womenscientists",
       "referenceName": "Women in Science Pack",
       "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "C1DD374B",
+      "localizations": [
+        {
+          "description": "Reframes for feeling like a fraud.",
+          "displayName": "Earned It",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.earnedit",
+      "referenceName": "Earned It Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "82B116E4",
+      "localizations": [
+        {
+          "description": "Gentler words for hard moments.",
+          "displayName": "Be Kind to Yourself",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.selfcompassion",
+      "referenceName": "Be Kind to Yourself Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "085B48B0",
+      "localizations": [
+        {
+          "description": "A nudge to begin before you feel ready.",
+          "displayName": "Daily Courage",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.courage",
+      "referenceName": "Daily Courage Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "F4F2B163",
+      "localizations": [
+        {
+          "description": "Perspective after a setback or rejection.",
+          "displayName": "Bounce Back",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.bounceback",
+      "referenceName": "Bounce Back Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "25652D0C",
+      "localizations": [
+        {
+          "description": "Body-first prompts to settle in seconds.",
+          "displayName": "Grounding Cues",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.grounding",
+      "referenceName": "Grounding Cues Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "0772595A",
+      "localizations": [
+        {
+          "description": "Release the pressure to get it flawless.",
+          "displayName": "Progress Over Perfection",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.progress",
+      "referenceName": "Progress Over Perfection Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "27067D47",
+      "localizations": [
+        {
+          "description": "Step out of the comparison trap.",
+          "displayName": "Stop Comparing",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.comparison",
+      "referenceName": "Stop Comparing Pack",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "ECC7C86A",
+      "localizations": [
+        {
+          "description": "Timeless words from writers and poets.",
+          "displayName": "Voices of Courage",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "pack.voices",
+      "referenceName": "Voices of Courage Pack",
+      "type": "NonConsumable"
     }
   ],
   "settings": {

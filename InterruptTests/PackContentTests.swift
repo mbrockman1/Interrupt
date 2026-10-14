@@ -3,8 +3,6 @@ import XCTest
 
 @MainActor
 final class PackContentTests: XCTestCase {
-    private let validCategories: Set<String> = ["Stress", "Overthinking", "Imposter Syndrome"]
-
     private func makePacks() -> [(String, [InterruptMessage])] {
         let science = ContentPack(id: ScienceFactsMessages.packID, title: "", subtitle: "")
         let scientists = ContentPack(id: ScientistsMessages.packID, title: "", subtitle: "")
@@ -24,17 +22,12 @@ final class PackContentTests: XCTestCase {
         }
     }
 
-    func testEveryMessageMapsToADefaultEmotion() {
+    func testPackMessagesShipWithoutEmotions() {
         for (id, messages) in makePacks() {
             for m in messages {
-                XCTAssertTrue(validCategories.contains(m.categoryName), "\(id): '\(m.categoryName)' has no matching trigger")
+                XCTAssertEqual(m.categoryName, InterruptMessage.unlinkedCategory, "\(id) must not pre-assign an emotion")
+                XCTAssertTrue(m.assignedEmotions.isEmpty, id)
             }
-        }
-    }
-
-    func testEveryDefaultEmotionIsCoveredByEachNewPack() {
-        for (id, messages) in makePacks() where id != StoicMessages.packID {
-            XCTAssertEqual(Set(messages.map(\.categoryName)), validCategories, id)
         }
     }
 
@@ -81,5 +74,8 @@ final class PackContentTests: XCTestCase {
         XCTAssertTrue(StoreManager.shared.productIDs.contains(WomenScientistsMessages.packID))
         XCTAssertFalse(StoreManager.shared.productIDs.contains(ScienceFactsMessages.packID))
         XCTAssertFalse(StoreManager.shared.productIDs.contains(ScientistsMessages.packID))
+        for catalog in InspirationPacks.all {
+            XCTAssertTrue(StoreManager.shared.productIDs.contains(catalog.id), catalog.id)
+        }
     }
 }

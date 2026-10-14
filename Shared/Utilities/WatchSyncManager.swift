@@ -153,6 +153,7 @@ class WatchSyncManager: NSObject, WCSessionDelegate {
                     existing.text = incomingMsg.text
                     existing.isActive = incomingMsg.isActive
                     existing.categoryName = incomingMsg.categoryName
+                    existing.assignedEmotionsRaw = incomingMsg.assignedEmotionsRaw
                 } else {
                     context.insert(incomingMsg)
                 }

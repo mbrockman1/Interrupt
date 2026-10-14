@@ -20,6 +20,7 @@
 		4CBB5A503035C4D2006E65EF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CBB5A4F3035C4D2006E65EF /* FirebaseCrashlytics */; };
 		523DF5F2D48BA714D7464A05 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06C52C11294D8D0ABFB2F736 /* Foundation.framework */; };
 		B2BD97FD7CA055EA059AC7BF /* PackContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39D8C0EA3AE6509B8A07BC12 /* PackContentTests.swift */; };
+		C62CC6BEFDD1993F6EDD6EA7 /* PackAssignmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24A9676D72194F2AD80427 /* PackAssignmentTests.swift */; };
 		D17ACAB00E2872C0C8ECCB65 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C0CD891D0F59BB2AC76839 /* TestSupport.swift */; };
 		F167DA33580680007D89EBE1 /* UnlockAndSelectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC4D99ECB972B6F8E3C3DB6 /* UnlockAndSelectionTests.swift */; };
 /* End PBXBuildFile section */
@@ -113,6 +114,7 @@
 		4C44A45A2F6B852300CB9783 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = /System/Library/Frameworks/SwiftUI.framework; sourceTree = "<absolute>"; };
 		4CBB5A4A3035C441006E65EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7062434B37F695DB2D307185 /* InterruptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InterruptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A24A9676D72194F2AD80427 /* PackAssignmentTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PackAssignmentTests.swift; sourceTree = "<group>"; };
 		AAC4D99ECB972B6F8E3C3DB6 /* UnlockAndSelectionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UnlockAndSelectionTests.swift; sourceTree = "<group>"; };
 		F3C0CD891D0F59BB2AC76839 /* TestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -290,6 +292,7 @@
 				2F275C34DDEE574793F67FEC /* SeedManagerTests.swift */,
 				F3C0CD891D0F59BB2AC76839 /* TestSupport.swift */,
 				AAC4D99ECB972B6F8E3C3DB6 /* UnlockAndSelectionTests.swift */,
+				7A24A9676D72194F2AD80427 /* PackAssignmentTests.swift */,
 			);
 			name = InterruptTests;
 			path = InterruptTests;
@@ -554,6 +557,7 @@
 				1D606B318BC3862482BFB3C0 /* SeedManagerTests.swift in Sources */,
 				D17ACAB00E2872C0C8ECCB65 /* TestSupport.swift in Sources */,
 				F167DA33580680007D89EBE1 /* UnlockAndSelectionTests.swift in Sources */,
+				C62CC6BEFDD1993F6EDD6EA7 /* PackAssignmentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,7 +646,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ComplicationsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Complications/Info.plist;
@@ -654,7 +658,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -676,7 +680,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ComplicationsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Complications/Info.plist;
@@ -688,7 +692,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -831,7 +835,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Interrupt Watch App/Interrupt Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -843,7 +847,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -866,7 +870,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Interrupt Watch App/Interrupt Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -878,7 +882,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -903,7 +907,7 @@
 				CODE_SIGN_ENTITLEMENTS = Interrupt/Interrupt.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -920,7 +924,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -947,7 +951,7 @@
 				CODE_SIGN_ENTITLEMENTS = Interrupt/Interrupt.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -964,7 +968,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -991,7 +995,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = InterruptWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_APP_SANDBOX = YES;
@@ -1012,7 +1016,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1036,7 +1040,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = InterruptWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_APP_SANDBOX = YES;
@@ -1057,7 +1061,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.20261010;
+				MARKETING_VERSION = 1.20261014;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
