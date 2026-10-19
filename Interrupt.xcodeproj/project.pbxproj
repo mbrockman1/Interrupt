@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D606B318BC3862482BFB3C0 /* SeedManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F275C34DDEE574793F67FEC /* SeedManagerTests.swift */; };
+		3C29856DB32CDABCD0371842 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3DC3A5E1013ABED9B73BE0DF /* FirebaseAnalyticsCore */; };
 		4C046FDD2F6DF5690001ABB5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A4582F6B852300CB9783 /* WidgetKit.framework */; };
 		4C046FDE2F6DF5690001ABB5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C44A45A2F6B852300CB9783 /* SwiftUI.framework */; };
 		4C046FE92F6DF56B0001ABB5 /* ComplicationsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4C046FDC2F6DF5690001ABB5 /* ComplicationsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -263,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CBB5A503035C4D2006E65EF /* FirebaseCrashlytics in Frameworks */,
+				3C29856DB32CDABCD0371842 /* FirebaseAnalyticsCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +394,7 @@
 			name = Interrupt;
 			packageProductDependencies = (
 				4CBB5A4F3035C4D2006E65EF /* FirebaseCrashlytics */,
+				3DC3A5E1013ABED9B73BE0DF /* FirebaseAnalyticsCore */,
 			);
 			productName = Interrupt;
 			productReference = 4C44A40D2F6B819E00CB9783 /* Interrupt.app */;
@@ -646,7 +649,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ComplicationsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Complications/Info.plist;
@@ -658,7 +661,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -680,7 +683,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ComplicationsExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Complications/Info.plist;
@@ -692,7 +695,7 @@
 					"@executable_path/../../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp.Complications;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -835,7 +838,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Interrupt Watch App/Interrupt Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -847,7 +850,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -870,7 +873,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Interrupt Watch App/Interrupt Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -882,7 +885,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -907,7 +910,7 @@
 				CODE_SIGN_ENTITLEMENTS = Interrupt/Interrupt.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -924,7 +927,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -951,7 +954,7 @@
 				CODE_SIGN_ENTITLEMENTS = Interrupt/Interrupt.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -968,7 +971,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -995,7 +998,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = InterruptWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_APP_SANDBOX = YES;
@@ -1016,7 +1019,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1040,7 +1043,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = InterruptWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8A3PF8RFV;
 				ENABLE_APP_SANDBOX = YES;
@@ -1061,7 +1064,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.2;
-				MARKETING_VERSION = 1.20261014;
+				MARKETING_VERSION = 1.20261019;
 				PRODUCT_BUNDLE_IDENTIFIER = org.mjbapps.Interrupt.InterruptWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1167,6 +1170,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3DC3A5E1013ABED9B73BE0DF /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4CBB5A4C3035C4D2006E65EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
 		4CBB5A4F3035C4D2006E65EF /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4CBB5A4C3035C4D2006E65EF /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -1,7 +1,7 @@
 # Interrupt App - Architecture & Development Guide
 
-**Version:** 1.20261014  
-**Last Updated:** October 14, 2026  
+**Version:** 1.20261019  
+**Last Updated:** October 19, 2026  
 **Developer:** Michael Brockman
 
 ---
@@ -243,25 +243,22 @@ do {
 ```
 
 ### Firebase Integration
-**Current State (v0.20260820):**
-- ✅ FirebaseCore + FirebaseCrashlytics only, in the main `Interrupt` iOS target
+**Current State (v1.20261019, build 7):**
+- ✅ FirebaseCore + FirebaseCrashlytics + **FirebaseAnalyticsCore**, in the main `Interrupt` iOS target only
 - ✅ `FirebaseApp.configure()` + Crashlytics collection enabled in the iOS app `init()`
-- ❌ **FirebaseAnalytics is intentionally NOT included.** As of firebase-ios-sdk 12.17.0, the SPM
-  `FirebaseAnalytics` product unconditionally links `GoogleAppMeasurementIdentitySupport`, which
-  references `ATTrackingManager` — there is no working SPM product in this SDK version that provides
-  `Analytics.logEvent()` without shipping that reference (`FirebaseAnalyticsWithoutAdIdSupport` no
-  longer exists; `FirebaseAnalyticsCore` exists but is missing the actual `FIRAnalytics` symbols and
-  fails to link). App Store Connect's automated privacy check does not accept "ship the ATT-capable
-  code but declare no tracking" — it requires either declaring Tracking=Yes (not true for this app) or
-  the binary to genuinely not reference ATT. Verified at the binary level (otool/nm/strings on the
-  actual built app) that with FirebaseAnalytics removed, zero `ATTrackingManager` references and zero
-  `AdSupport`/`AppTrackingTransparency` framework linkage remain anywhere in the shipped bundle, and
-  `NSUserTrackingUsageDescription` is absent from Info.plist. In App Store Connect, App Privacy should
-  be answered "Data Not Used to Track You."
-- **Tradeoff accepted**: no `interrupt_triggered` / `purchase_completed` / `breathing_toggled` custom
-  event analytics. Crash reporting (Crashlytics) still fully works. If product analytics are wanted
-  later, re-adding FirebaseAnalytics means re-accepting the ATT flag — there's no way around it in
-  this SDK line without pinning to a much older, unsupported firebase-ios-sdk version.
+- ✅ **Analytics uses the `FirebaseAnalyticsCore` SPM product, NOT `FirebaseAnalytics`.** The plain
+  `FirebaseAnalytics` product pulls in `GoogleAppMeasurementIdentitySupport`, which references
+  `ATTrackingManager`/AdSupport and trips App Store Connect's tracking check. `FirebaseAnalyticsCore`
+  wraps `GoogleAppMeasurementCore` (no IdentitySupport) and still exposes `Analytics.logEvent`
+  (`import FirebaseAnalytics`). Verified on a device-SDK build: no `AppTrackingTransparency`/`AdSupport`
+  linkage, no `ATTrackingManager`/`ASIdentifierManager` symbols, no `NSUserTrackingUsageDescription`.
+  (An earlier note here claimed Core failed to link; it links fine in SDK 12.17.0.) Re-verify with
+  `otool -L` / `strings` after any Firebase upgrade.
+- Events go through `AppAnalytics.log` (`Interrupt/AppAnalytics.swift`): `interrupt_triggered`
+  (source_pack), `pack_added`, `purchase_completed`, `pack_emotions_assigned` (count only). **Never log
+  emotion names, quote text, or notes**: the Settings privacy copy promises they stay on-device.
+- App Store Connect App Privacy: Usage Data (Product Interaction) and Diagnostics (Crash Data) collected,
+  not linked to identity, **not used for tracking**; answer "Data Not Used to Track You".
 
 **Next Steps (Future Releases):**
 - [ ] Custom user properties (free vs. premium, usage tier)
@@ -427,6 +424,7 @@ xcodebuild test -project Interrupt.xcodeproj -scheme InterruptTests -destination
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.20261019 | Oct 19, 2026 | Re-added Firebase Analytics via `FirebaseAnalyticsCore` (no ATT/IDFA code), basic anonymous usage events, updated in-app privacy text |
 | 1.20261014 | Oct 14, 2026 | Added 8 paid inspiration packs ($0.99 each); quote packs no longer ship with emotions: users assign which emotions each pack serves (list in the pack screen), with migration of old per-quote tags; `assignedEmotionsRaw` synced to the watch |
 | 1.20261010 | Oct 10, 2026 | Added three quote packs: Science Facts and Words of Scientists (free, installed via "Add to Library") and Women in Science (paid, StoreKit product `pack.womenscientists`, must be created in App Store Connect); seeding is now per-pack so new packs reach existing installs; quotes from locked packs are now inactive so they no longer appear before unlock/install |
 | 0.20260907 | Sep 7, 2026 | Fixed the quote-pack purchase flow: auto-restore entitlements on launch (reinstalls/new devices no longer require a manual "Restore Purchases" tap); pack cards now show the real StoreKit price instead of a hardcoded "Free" label; fixed the sandbox `.storekit` price ($0.00 → $0.99); retagged an orphaned Stoic quote's category so all 7 premium quotes are reachable; purchase failures/pending states now surface an alert instead of failing silently; added a Ko-fi support link in Settings |
