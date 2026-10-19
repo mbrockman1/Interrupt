@@ -175,6 +175,7 @@ struct InterruptView: View {
         }
 
         let msg = MessageStore.shared.getMessage(for: categoryName, context: context)
+        AppAnalytics.log("interrupt_triggered", ["source_pack": msg.packID])
         activeMessage = msg
     }
 }

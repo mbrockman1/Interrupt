@@ -129,7 +129,7 @@ struct SettingsView: View {
                 
                 // MARK: - Privacy Section
                 Section(header: Text("Privacy")) {
-                    Text("Your mind is your own. All of your emotional data, trigger logs, and custom notes are stored locally on your device. We do not collect, read, transmit, or sell your personal data.")
+                    Text("Your mind is your own. All of your emotional data, trigger logs, and custom notes are stored locally on your device. We do not read, transmit, or sell your personal data. To keep the app working well we collect anonymous crash reports and basic usage counts (such as how often the app is opened). These never include your emotions, notes, or quotes, and are never used for advertising or tracking.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }

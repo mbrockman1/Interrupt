@@ -213,6 +213,7 @@ struct PackDetailView: View {
                         if !pack.isPremium {
                             Button(action: {
                                 store.unlockPack(pack, context: context)
+                                AppAnalytics.log("pack_added", ["pack_id": pack.id])
                             }) {
                                 Text("Add to Library")
                                     .font(.headline)
@@ -237,6 +238,7 @@ struct PackDetailView: View {
                                 if let product {
                                     // 2. Trigger the Apple Pay Sheet!
                                     await store.purchase(product, pack: pack, context: context)
+                                    if pack.isPurchased { AppAnalytics.log("purchase_completed", ["pack_id": pack.id]) }
                                 } else {
                                     store.purchaseErrorMessage = "Couldn't reach the App Store. Check your connection and try again."
                                 }
@@ -326,6 +328,7 @@ struct PackDetailView: View {
                     var updated = assigned
                     if updated.contains(trigger.name) { updated.remove(trigger.name) } else { updated.insert(trigger.name) }
                     PackAssignment.setAssignedEmotions(updated, packID: pack.id, context: context)
+                    AppAnalytics.log("pack_emotions_assigned", ["pack_id": pack.id, "emotion_count": updated.count])
                 } label: {
                     HStack {
                         Text(trigger.name).foregroundStyle(.primary)
